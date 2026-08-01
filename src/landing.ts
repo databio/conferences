@@ -60,7 +60,11 @@ export function landingHtml(repo: string): string {
         .map(
           (c) => `<tr>
         <td class="c-name">${nameCell(c)}</td>
-        <td class="c-dates">${dateRange(c.start_date, c.end_date)}</td>
+        <td class="c-dates">${dateRange(c.start_date, c.end_date)}${
+          c.start_date
+            ? ` <a class="cal" href="/${c.slug}/${c.year}/calendar.ics" title="Add ${esc(c.name)} ${c.year} (and its deadlines) to your calendar">📅</a>`
+            : ''
+        }</td>
         <td class="c-loc">${esc(c.location ?? '')}</td>
         <td class="c-dl">${deadlinesCell(c)}</td>
       </tr>`,
@@ -107,6 +111,8 @@ export function landingHtml(repo: string): string {
   .c-dates, .c-dl { white-space:nowrap; }
   .c-dl { font-size:.85rem; }
   .d-date { color:var(--muted); }
+  .cal { text-decoration:none; font-size:.85em; opacity:.5; margin-left:.15rem; }
+  .cal:hover { opacity:1; }
   .ai { margin-top:2.5rem; border:1px solid var(--line); border-radius:10px; padding:1rem 1.25rem; background:color-mix(in srgb, var(--accent) 4%, transparent); }
   .ai h2 { border:0; display:block; margin:.2rem 0 .5rem; }
   .ai code { background:color-mix(in srgb, var(--fg) 8%, transparent); padding:.1em .35em; border-radius:4px; font-size:.85em; }

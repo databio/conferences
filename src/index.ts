@@ -13,7 +13,7 @@ import {
   type Conference,
   type DeadlineRow,
 } from './data'
-import { toICal } from './ical'
+import { toICal, toICalConference } from './ical'
 import { landingHtml } from './landing'
 import { openapi } from './openapi'
 import schema from '../schema.json'
@@ -129,7 +129,9 @@ export default {
       const rows = instanceDeadlines(inst)
       if (segments[2] === 'deadlines') return json(rows)
       if (segments[2] === 'calendar.ics') {
-        return text(toICal(rows, `${inst.name} ${year}`), 'text/calendar; charset=utf-8')
+        return text(toICalConference(inst), 'text/calendar; charset=utf-8', 200, {
+          'Content-Disposition': `attachment; filename="${inst.id}.ics"`,
+        })
       }
     }
     return json({ error: 'not found' }, 404)
