@@ -115,6 +115,27 @@ describe('read endpoints', () => {
   })
 })
 
+describe('aggregator provider contract (/api/v1/deadlines)', () => {
+  it('capabilities is read-only', async () => {
+    const r = await get('/api/v1/deadlines/capabilities')
+    expect(await r.json()).toEqual({ name: 'conferences', capabilities: ['read', 'pool'] })
+  })
+  it('deadlines emit exactly the canonical Deadline fields', async () => {
+    const rows = (await (await get('/api/v1/deadlines?scope=pool')).json()) as Record<string, unknown>[]
+    expect(rows.length).toBeGreaterThan(0)
+    const keys = Object.keys(rows[0]).sort()
+    expect(keys).toEqual(
+      ['date', 'id', 'kind', 'notes', 'owner', 'ref_slug', 'source', 'source_ref', 'status', 'subscribed', 'title', 'type', 'url'].sort(),
+    )
+    expect(rows[0].source).toBe('conferences')
+    expect(rows[0].type).toBe('conference')
+  })
+  it('scope=mine is empty (no per-user state here)', async () => {
+    const rows = (await (await get('/api/v1/deadlines?scope=mine')).json()) as unknown[]
+    expect(rows).toEqual([])
+  })
+})
+
 describe('POST /suggest', () => {
   it('returns a prefilled issue url', async () => {
     const r = await worker.fetch(

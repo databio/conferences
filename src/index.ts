@@ -16,6 +16,7 @@ import {
 import { toICal, toICalConference } from './ical'
 import { landingHtml } from './landing'
 import { openapi } from './openapi'
+import { providerCapabilities, providerDeadlines } from './provider'
 import schema from '../schema.json'
 
 interface Env {
@@ -72,6 +73,22 @@ export default {
     // ── POST /suggest — stateless correction path (returns a prefilled PR/issue) ──
     if (request.method === 'POST' && head === 'suggest') return handleSuggest(request, env)
     if (request.method !== 'GET') return json({ error: 'method not allowed' }, 405)
+
+    // ── DeadlineProvider contract for the aggregator (read-only) ───────────────
+    // base_url = https://conferences.databio.org/api/v1  ->  /api/v1/deadlines*
+    if (segments[0] === 'api' && segments[1] === 'v1' && segments[2] === 'deadlines') {
+      if (segments[3] === 'capabilities') return json(providerCapabilities)
+      if (segments.length === 3) {
+        return json(
+          providerDeadlines({
+            scope: qp.get('scope') ?? undefined,
+            from: qp.get('from') ?? undefined,
+            to: qp.get('to') ?? undefined,
+          }),
+        )
+      }
+      return json({ error: 'not found' }, 404)
+    }
 
     // ── Utility / reserved endpoints ──────────────────────────────────────────
     if (segments.length === 0) return landing(env)
