@@ -14,6 +14,7 @@ import {
   type DeadlineRow,
 } from './data'
 import { toICal } from './ical'
+import { landingHtml } from './landing'
 import { openapi } from './openapi'
 import schema from '../schema.json'
 
@@ -70,7 +71,7 @@ export default {
     if (request.method !== 'GET') return json({ error: 'method not allowed' }, 405)
 
     // ── Utility / reserved endpoints ──────────────────────────────────────────
-    if (segments.length === 0) return landing()
+    if (segments.length === 0) return landing(env)
     if (segments.length === 1 && RESERVED.has(head)) {
       switch (head) {
         case 'health':
@@ -198,24 +199,8 @@ async function handleSuggest(request: Request, env: Env): Promise<Response> {
   return json({ ok: true, issue_url, note: 'Open the link to submit as a GitHub issue; a maintainer turns it into a PR.' }, 201)
 }
 
-function landing(): Response {
-  const html = `<!doctype html><meta charset=utf-8><title>conferences.databio.org</title>
-<style>body{font:16px/1.5 system-ui,sans-serif;max-width:44rem;margin:3rem auto;padding:0 1rem}code{background:#f4f4f5;padding:.1em .35em;border-radius:4px}</style>
-<h1>conferences.databio.org</h1>
-<p>An AI-curated, git-backed API of computational-biology conferences and their deadlines.
-Read-only; the dataset is a JSON file, corrections are GitHub PRs.</p>
-<h2>Endpoints</h2>
-<ul>
-<li><code>GET /conferences</code> — list (filters: year, from, to, location, q, upcoming)</li>
-<li><code>GET /deadlines</code> — flat deadline feed (from, to, days, kind)</li>
-<li><code>GET /{slug}</code> and <code>GET /{slug}/{year}</code> — a series / one instance</li>
-<li><code>GET /calendar.ics</code> — subscribable calendar of upcoming deadlines</li>
-<li><code>GET /conferences.json</code>, <code>/conferences.csv</code> — bulk export</li>
-<li><code>GET /openapi.json</code>, <code>/schema.json</code>, <code>/llms.txt</code> — machine/AI</li>
-<li><code>GET /stats</code></li>
-</ul>
-<p>Source & contributions: <a href="https://github.com/databio/conferences">github.com/databio/conferences</a></p>`
-  return text(html, 'text/html; charset=utf-8')
+function landing(env: Env): Response {
+  return text(landingHtml(env.GITHUB_REPO ?? 'databio/conferences'), 'text/html; charset=utf-8')
 }
 
 function llmsTxt(env: Env): string {

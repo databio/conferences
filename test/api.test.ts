@@ -34,6 +34,14 @@ describe('read endpoints', () => {
     expect(r.status).toBe(200)
     expect(await r.json()).toEqual({ ok: true })
   })
+  it('GET / renders a human table + AI section', async () => {
+    const r = await get('/')
+    expect(r.headers.get('content-type')).toContain('text/html')
+    const html = await r.text()
+    expect(html).toContain('<table>')
+    expect(html).toContain('For AI agents')
+    expect(html).toContain('SKILL.md')
+  })
   it('GET /conferences returns an array', async () => {
     const r = await get('/conferences')
     expect(r.status).toBe(200)
