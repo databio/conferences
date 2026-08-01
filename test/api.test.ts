@@ -42,6 +42,33 @@ describe('read endpoints', () => {
     expect(html).toContain('For AI agents')
     expect(html).toContain('SKILL.md')
   })
+  it('GET / has SEO title, meta, og tags, and valid JSON-LD', async () => {
+    const html = await (await get('/')).text()
+    expect(html).toContain('<title>Computational Biology Conferences List and API</title>')
+    expect(html).toContain('<meta name="description"')
+    expect(html).toContain('<link rel="canonical" href="https://conferences.databio.org/">')
+    expect(html).toContain('<meta name="robots" content="index,follow">')
+    expect(html).toContain('<meta property="og:title"')
+    expect(html).toContain('<meta property="og:site_name" content="databio">')
+    expect(html).toContain('<meta name="twitter:card" content="summary">')
+    const m = html.match(/<script type="application\/ld\+json">(.*?)<\/script>/s)
+    expect(m).toBeTruthy()
+    const ld = JSON.parse(m![1]) as { '@type': string; itemListElement: unknown[] }
+    expect(ld['@type']).toBe('ItemList')
+    expect(Array.isArray(ld.itemListElement)).toBe(true)
+  })
+  it('GET /robots.txt advertises the sitemap', async () => {
+    const r = await get('/robots.txt')
+    expect(r.status).toBe(200)
+    expect(await r.text()).toContain('Sitemap: https://conferences.databio.org/sitemap.xml')
+  })
+  it('GET /sitemap.xml lists the homepage', async () => {
+    const r = await get('/sitemap.xml')
+    expect(r.status).toBe(200)
+    expect(r.headers.get('content-type')).toContain('xml')
+    const xml = await r.text()
+    expect(xml).toContain('<loc>https://conferences.databio.org/</loc>')
+  })
   it('GET /conferences returns an array', async () => {
     const r = await get('/conferences')
     expect(r.status).toBe(200)

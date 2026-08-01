@@ -40,6 +40,39 @@ function nameCell(c: Conference): string {
   return `${inner}${full}`
 }
 
+const SITE = 'https://conferences.databio.org'
+
+// schema.org ItemList of Event objects for dated, current+future conferences.
+// Serialized as JSON, then `<` is escaped to < so the payload can never
+// break out of the surrounding <script> element.
+function jsonLd(confs: Conference[], currentYear: number): string {
+  const events = confs
+    .filter((c) => c.start_date && c.year >= currentYear)
+    .sort((a, b) => (a.start_date ?? '').localeCompare(b.start_date ?? ''))
+    .map((c, i) => {
+      const event: Record<string, unknown> = {
+        '@type': 'Event',
+        name: c.full_name ? `${c.name} (${c.full_name})` : c.name,
+        startDate: c.start_date,
+        eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+      }
+      if (c.end_date) event.endDate = c.end_date
+      if (c.link) event.url = c.link
+      if (c.location) event.location = { '@type': 'Place', name: c.location }
+      return { '@type': 'ListItem', position: i + 1, item: event }
+    })
+  const doc = {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: 'Computational Biology Conferences and Deadlines',
+    description: 'Upcoming computational biology, bioinformatics, and genomics conferences with dates and submission deadlines.',
+    url: `${SITE}/`,
+    numberOfItems: events.length,
+    itemListElement: events,
+  }
+  return JSON.stringify(doc).replace(/</g, '\\u003c')
+}
+
 export function landingHtml(repo: string): string {
   const confs = allConferences()
   const byYear = new Map<number, Conference[]>()
@@ -81,10 +114,27 @@ export function landingHtml(repo: string): string {
   const skillUrl = `https://github.com/${repo}/blob/main/.claude/skills/update-conferences/SKILL.md`
   const contribUrl = `https://github.com/${repo}/blob/main/CONTRIBUTING.md`
 
+  const currentYear = new Date().getUTCFullYear()
+  const description =
+    'Curated computational biology, bioinformatics, and genomics conference dates and submission deadlines. Browse by year, subscribe via iCal, or query the open JSON API.'
+  const ld = jsonLd(confs, currentYear)
+
   return `<!doctype html><html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Conferences · databio</title>
-<meta name="description" content="AI-curated computational-biology conference dates and deadlines, with an open API.">
+<title>Computational Biology Conferences List and API</title>
+<meta name="description" content="${esc(description)}">
+<meta name="keywords" content="computational biology conferences, bioinformatics conferences, genomics conferences, conference deadlines, abstract submission deadlines, conference calendar, iCal, conference API">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="${SITE}/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Computational Biology Conferences List and API">
+<meta property="og:description" content="${esc(description)}">
+<meta property="og:url" content="${SITE}/">
+<meta property="og:site_name" content="databio">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Computational Biology Conferences List and API">
+<meta name="twitter:description" content="${esc(description)}">
+<script type="application/ld+json">${ld}</script>
 <style>
   :root { --fg:#1a1a1a; --muted:#6b7280; --line:#e5e7eb; --accent:#2563eb; --bg:#fff; }
   @media (prefers-color-scheme: dark){ :root{ --fg:#e5e7eb; --muted:#9ca3af; --line:#2b2f36; --accent:#60a5fa; --bg:#0d1117; } }
@@ -120,8 +170,8 @@ export function landingHtml(repo: string): string {
   footer { margin-top:2rem; color:var(--muted); font-size:.82rem; }
 </style></head>
 <body><main id="top">
-  <h1>Conferences</h1>
-  <p class="sub">Computational-biology conference dates and important deadlines — AI-curated, with an open API.</p>
+  <h1>Computational Biology Conferences &amp; Deadlines</h1>
+  <p class="sub">Curated dates and submission deadlines for computational biology, bioinformatics, and genomics conferences — AI-curated, with an open API.</p>
   <p class="links">
     <a href="/conferences">API</a>
     <a href="/deadlines?days=180">Upcoming deadlines</a>

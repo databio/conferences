@@ -38,7 +38,10 @@ const RESERVED = new Set([
   'health',
   'favicon.ico',
   'robots.txt',
+  'sitemap.xml',
 ])
+
+const SITE = 'https://conferences.databio.org'
 
 const CORS = { 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET, POST, OPTIONS' }
 
@@ -107,7 +110,9 @@ export default {
         case 'llms.txt':
           return text(llmsTxt(env), 'text/plain; charset=utf-8')
         case 'robots.txt':
-          return text('User-agent: *\nAllow: /\n', 'text/plain; charset=utf-8')
+          return text(`User-agent: *\nAllow: /\nSitemap: ${SITE}/sitemap.xml\n`, 'text/plain; charset=utf-8')
+        case 'sitemap.xml':
+          return text(sitemapXml(), 'application/xml; charset=utf-8')
         case 'favicon.ico':
           return new Response(null, { status: 204 })
       }
@@ -199,6 +204,22 @@ async function handleSuggest(request: Request, env: Env): Promise<Response> {
   )
   const issue_url = `https://github.com/${repo}/issues/new?title=${title}&body=${bodyText}`
   return json({ ok: true, issue_url, note: 'Open the link to submit as a GitHub issue; a maintainer turns it into a PR.' }, 201)
+}
+
+function sitemapXml(): string {
+  // Only the homepage is an HTML page; the /{slug}/{year} routes return JSON,
+  // so the sitemap honestly lists just the crawlable HTML URL.
+  const lastmod = today()
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>${SITE}/</loc>
+    <lastmod>${lastmod}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+</urlset>
+`
 }
 
 function landing(env: Env): Response {
