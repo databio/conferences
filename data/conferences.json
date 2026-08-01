@@ -1,0 +1,1005 @@
+{
+  "conferences": [
+    {
+      "name": "BioC 2021: Where Software and Biology Connect",
+      "year": 2021,
+      "location": "Virtual",
+      "start_date": "2021-08-04",
+      "end_date": "2021-08-06",
+      "link": "https://bioc2021.bioconductor.org/"
+    },
+    {
+      "name": "BMES",
+      "year": 2021,
+      "location": "Orlando",
+      "start_date": "2021-10-06",
+      "end_date": "2021-10-09",
+      "link": "https://www.bmes.org/annualmeeting"
+    },
+    {
+      "name": "BOSC",
+      "year": 2021,
+      "location": "Lyon, France",
+      "start_date": "2021-07-28",
+      "end_date": "2021-07-30",
+      "link": "https://www.open-bio.org/events/bosc-2021/"
+    },
+    {
+      "name": "CSH Genome Informatics",
+      "year": 2021,
+      "location": "NY",
+      "start_date": "2021-11-03",
+      "end_date": "2021-11-06",
+      "link": "https://meetings.cshl.edu/meetings.aspx?meet=DATA&year=208"
+    },
+    {
+      "name": "IEEE Big Data",
+      "year": 2021,
+      "location": "Virtual",
+      "start_date": "2021-12-15",
+      "end_date": "2021-12-18",
+      "link": "http://bigdataieee.org/BigData2021/"
+    },
+    {
+      "name": "ISMB",
+      "year": 2021,
+      "location": "Lyon, France",
+      "start_date": "2021-07-25",
+      "end_date": "2021-07-29",
+      "link": "https://www.iscb.org/ismbeccb2021"
+    },
+    {
+      "name": "RECOMB",
+      "year": 2021,
+      "location": "Italy",
+      "start_date": "2021-04-18",
+      "end_date": "2021-04-21",
+      "link": "https://www.recomb2021.org/"
+    },
+    {
+      "name": "useR",
+      "year": 2021,
+      "location": "Virtual",
+      "start_date": "2021-07-05",
+      "end_date": "2021-07-09",
+      "link": "https://user2021.r-project.org/"
+    },
+    {
+      "name": "ACM BCB",
+      "year": 2022,
+      "location": "Chicago, IL",
+      "start_date": "2022-08-07",
+      "end_date": "2022-08-10",
+      "deadlines": [
+        {
+          "name": "Proceedings",
+          "date": "2022-05-22"
+        }
+      ]
+    },
+    {
+      "name": "Bioconductor",
+      "year": 2022,
+      "location": "Seattle, WA",
+      "start_date": "2022-07-27",
+      "end_date": "2022-07-29",
+      "link": "http://bioc2022.bioconductor.org/"
+    },
+    {
+      "name": "BMES",
+      "year": 2022,
+      "location": "San Antonio, TX",
+      "start_date": "2022-10-12",
+      "end_date": "2022-10-15",
+      "link": "https://www.bmes.org/annualmeeting"
+    },
+    {
+      "name": "BOSC (ISMB)",
+      "year": 2022,
+      "location": "Madison, WI",
+      "start_date": "2022-07-13",
+      "end_date": "2022-07-14",
+      "link": "https://www.open-bio.org/events/bosc-2022/",
+      "note": "Held as part of ISMB",
+      "deadlines": [
+        {
+          "name": "Abstracts",
+          "date": "2022-04-21"
+        },
+        {
+          "name": "Late Posters",
+          "date": "2022-05-19"
+        }
+      ]
+    },
+    {
+      "name": "CSH Biological Data Science",
+      "year": 2022,
+      "location": "NY",
+      "start_date": "2022-11-09",
+      "end_date": "2022-11-12",
+      "link": "https://meetings.cshl.edu/meetings.aspx?meet=DATA&year=22",
+      "deadlines": [
+        {
+          "name": "Talk/Poster abstracts",
+          "date": "2022-08-26"
+        },
+        {
+          "name": "Late posters",
+          "date": "2022-10-01"
+        }
+      ]
+    },
+    {
+      "name": "CSH Biology of Genomes",
+      "year": 2022,
+      "location": "NY",
+      "start_date": "2022-05-10",
+      "end_date": "2022-05-14",
+      "link": "https://meetings.cshl.edu/meetings.aspx?meet=GENOME&year=22",
+      "deadlines": [
+        {
+          "name": "Talk/Poster abstracts",
+          "date": "2022-02-18"
+        }
+      ]
+    },
+    {
+      "name": "ISMB",
+      "full_name": "Intelligent Systems for Molecular Biology 2022",
+      "year": 2022,
+      "location": "Madison, WI",
+      "start_date": "2022-07-11",
+      "end_date": "2022-07-14",
+      "link": "https://www.iscb.org/ismb2022",
+      "deadlines": [
+        {
+          "name": "Proceedings",
+          "date": "2022-01-13"
+        },
+        {
+          "name": "Talk/Poster abstracts",
+          "date": "2022-04-21"
+        },
+        {
+          "name": "Late posters",
+          "date": "2022-05-26"
+        },
+        {
+          "name": "Registration",
+          "date": "2022-06-10"
+        }
+      ]
+    },
+    {
+      "name": "MidAtlantic Bioinformatics Conference",
+      "year": 2022,
+      "location": "Philadelphia, PA",
+      "start_date": "2022-10-07",
+      "end_date": "2022-10-07",
+      "link": "https://www.midatlanticbioinformatics.org/",
+      "deadlines": [
+        {
+          "name": "Poster Abstract",
+          "date": "2022-08-15"
+        }
+      ]
+    },
+    {
+      "name": "RECOMB",
+      "year": 2022,
+      "location": "La Jolla, CA",
+      "start_date": "2022-05-22",
+      "end_date": "2022-05-25",
+      "link": "https://recomb2022.net/",
+      "deadlines": [
+        {
+          "name": "Abstracts",
+          "date": "2021-11-04"
+        },
+        {
+          "name": "Posters",
+          "date": "2022-02-18"
+        },
+        {
+          "name": "Highlights",
+          "date": "2022-02-19"
+        }
+      ]
+    },
+    {
+      "name": "Rocky",
+      "year": 2022,
+      "location": "Snowmass, CO",
+      "start_date": "2022-12-08",
+      "end_date": "2022-12-10",
+      "link": "https://www.iscb.org/rocky2022",
+      "deadlines": [
+        {
+          "name": "Abstract",
+          "date": "2022-11-18"
+        },
+        {
+          "name": "Registration",
+          "date": "2022-11-18"
+        }
+      ]
+    },
+    {
+      "name": "useR!",
+      "year": 2022,
+      "location": "Nashville, TN",
+      "start_date": "2022-06-20",
+      "end_date": "2022-06-23",
+      "link": "https://user2022.r-project.org/",
+      "deadlines": [
+        {
+          "name": "Abstracts",
+          "date": "2022-02-15"
+        }
+      ]
+    },
+    {
+      "name": "ACM BCB",
+      "year": 2023,
+      "location": "Houston, TX",
+      "start_date": "2023-09-06",
+      "end_date": "2023-09-06",
+      "link": "https://acm-bcb.org/",
+      "deadlines": [
+        {
+          "name": "Proceedings",
+          "date": "2023-05-26"
+        }
+      ]
+    },
+    {
+      "name": "ASHG Annual meeting",
+      "year": 2023,
+      "location": "Washington, DC",
+      "start_date": "2023-11-01",
+      "end_date": "2023-11-05",
+      "deadlines": [
+        {
+          "name": "Invited sessions",
+          "date": "2023-01-25"
+        },
+        {
+          "name": "Abstracts",
+          "date": "2023-06-08"
+        }
+      ]
+    },
+    {
+      "name": "Bioconductor",
+      "year": 2023,
+      "location": "Boston MA",
+      "start_date": "2023-08-02",
+      "end_date": "2023-08-04",
+      "link": "https://bioc2023.bioconductor.org/",
+      "deadlines": [
+        {
+          "name": "Talk",
+          "date": "2023-03-19"
+        },
+        {
+          "name": "Registration",
+          "date": "2023-05-31"
+        }
+      ]
+    },
+    {
+      "name": "CSH Genome Informatics",
+      "year": 2023,
+      "location": "NY",
+      "start_date": "2023-12-06",
+      "end_date": "2023-12-09",
+      "link": "https://meetings.cshl.edu/meetings.aspx?meet=single&year=23",
+      "deadlines": [
+        {
+          "name": "Abstracts",
+          "date": "2023-08-18"
+        }
+      ]
+    },
+    {
+      "name": "CSH Single Cell Analyses",
+      "year": 2023,
+      "location": "NY",
+      "start_date": "2023-11-08",
+      "end_date": "2023-11-11",
+      "link": "https://meetings.cshl.edu/meetings.aspx?meet=INFO",
+      "deadlines": [
+        {
+          "name": "Abstracts",
+          "date": "2023-09-22"
+        }
+      ]
+    },
+    {
+      "name": "Galaxy Community Conference",
+      "year": 2023,
+      "location": "Brisbane, Australia"
+    },
+    {
+      "name": "GRC Epigenetics",
+      "year": 2023,
+      "location": "Holderness, NH",
+      "start_date": "2023-08-06",
+      "end_date": "2023-08-11",
+      "link": "https://www.grc.org/epigenetics-conference/2023/"
+    },
+    {
+      "name": "ISMB/ECCB",
+      "full_name": "Intelligent Systems for Molecular Biology 2022",
+      "year": 2023,
+      "location": "Lyon, France",
+      "start_date": "2023-07-23",
+      "end_date": "2023-07-27",
+      "link": "https://www.iscb.org/ismbeccb2023",
+      "deadlines": [
+        {
+          "name": "Proceedings",
+          "date": "2023-01-19"
+        }
+      ]
+    },
+    {
+      "name": "Pacific Symposium on Biocomputing",
+      "year": 2023,
+      "location": "Hawaii",
+      "start_date": "2023-01-03",
+      "end_date": "2023-01-07",
+      "deadlines": [
+        {
+          "name": "Paper submissions",
+          "date": "2022-08-01"
+        }
+      ]
+    },
+    {
+      "name": "RECOMB",
+      "year": 2023,
+      "location": "Istanbul, Turkey",
+      "start_date": "2023-04-16",
+      "end_date": "2023-04-19",
+      "link": "http://recomb2023.bilkent.edu.tr/"
+    },
+    {
+      "name": "ASHG Annual meeting",
+      "year": 2024,
+      "location": "Denver, CO",
+      "start_date": "2024-11-05",
+      "end_date": "2024-11-09"
+    },
+    {
+      "name": "Bioconductor",
+      "year": 2024,
+      "location": "Grand Rapids, MI",
+      "start_date": "2024-07-24",
+      "end_date": "2024-07-26",
+      "link": "https://www.bioc2024.bioconductor.org/",
+      "deadlines": [
+        {
+          "name": "Talk",
+          "date": "2024-04-01"
+        },
+        {
+          "name": "Registration",
+          "date": "2024-07-10"
+        }
+      ]
+    },
+    {
+      "name": "CSH Biological Data Science",
+      "year": 2024,
+      "location": "NY",
+      "start_date": "2024-11-13",
+      "end_date": "2024-11-16",
+      "link": "https://meetings.cshl.edu/meetings.aspx?meet=DATA&year=24",
+      "deadlines": [
+        {
+          "name": "Talk/Poster abstracts",
+          "date": "2024-08-23"
+        },
+        {
+          "name": "Late posters",
+          "date": "2024-10-01"
+        }
+      ]
+    },
+    {
+      "name": "CSH Biology of Genomes",
+      "year": 2024,
+      "location": "NY",
+      "start_date": "2024-05-07",
+      "end_date": "2024-05-11",
+      "link": "https://meetings.cshl.edu/meetings.aspx?meet=GENOME&year=24",
+      "deadlines": [
+        {
+          "name": "Talk/Poster abstracts",
+          "date": "2024-02-16"
+        }
+      ]
+    },
+    {
+      "name": "CSH Epigenetics and Chromatin",
+      "year": 2024,
+      "location": "NY",
+      "start_date": "2024-09-17",
+      "end_date": "2024-09-21",
+      "link": "https://meetings.cshl.edu/meetings.aspx?meet=EPICH&year=24",
+      "deadlines": [
+        {
+          "name": "Talk/Poster abstracts",
+          "date": "2024-06-28"
+        }
+      ]
+    },
+    {
+      "name": "ISMB",
+      "full_name": "Intelligent Systems for Molecular Biology 2024",
+      "year": 2024,
+      "location": "Montreal, Canada",
+      "start_date": "2024-07-12",
+      "end_date": "2024-07-16",
+      "link": "https://www.iscb.org/ismb2024",
+      "deadlines": [
+        {
+          "name": "Proceedings",
+          "date": "2024-01-25"
+        },
+        {
+          "name": "Talk/Poster abstracts",
+          "date": "2024-04-19"
+        },
+        {
+          "name": "Late posters",
+          "date": "2024-05-20"
+        },
+        {
+          "name": "Registration",
+          "date": "2024-06-05"
+        }
+      ]
+    },
+    {
+      "name": "RECOMB",
+      "year": 2024,
+      "location": "Boston, MA",
+      "start_date": "2024-04-29",
+      "end_date": "2023-05-02",
+      "link": "https://recomb.org/recomb2024/",
+      "deadlines": [
+        {
+          "name": "Abstract Registration",
+          "date": "2023-10-16"
+        },
+        {
+          "name": "Full Paper",
+          "date": "2023-10-20"
+        },
+        {
+          "name": "Final Paper",
+          "date": "2024-01-26"
+        },
+        {
+          "name": "Registration",
+          "date": "2024-03-04"
+        }
+      ]
+    },
+    {
+      "name": "ASHG Annual meeting",
+      "year": 2025,
+      "location": "Boston, MA",
+      "start_date": "2025-10-14",
+      "end_date": "2025-10-18",
+      "deadlines": [
+        {
+          "name": "Abstracts",
+          "date": "2025-06-09"
+        }
+      ]
+    },
+    {
+      "name": "Bioconductor/Galaxy",
+      "year": 2025,
+      "location": "Cold Spring Harbor Lab, NY",
+      "start_date": "2025-06-23",
+      "end_date": "2025-06-26",
+      "link": "https://blog.bioconductor.org/posts/2024-09-03-gbcc2025-announcement/"
+    },
+    {
+      "name": "CSH Biology of Genomes",
+      "year": 2025,
+      "location": "NY",
+      "start_date": "2025-05-06",
+      "end_date": "2025-05-10",
+      "link": "https://meetings.cshl.edu/meetings.aspx?meet=GENOME&year=25",
+      "deadlines": [
+        {
+          "name": "Talk/Poster abstracts",
+          "date": "2022-02-14"
+        }
+      ]
+    },
+    {
+      "name": "CSH Genome Informatics",
+      "year": 2025,
+      "location": "NY",
+      "start_date": "2025-11-05",
+      "end_date": "2025-11-08",
+      "link": "https://meetings.cshl.edu/meetings.aspx?meet=INFO&year=25",
+      "deadlines": [
+        {
+          "name": "Talk/Poster abstracts",
+          "date": "2024-08-22"
+        }
+      ]
+    },
+    {
+      "name": "CSH Single Cell Analyses",
+      "year": 2025,
+      "location": "NY",
+      "start_date": "2025-11-12",
+      "end_date": "2025-11-15",
+      "link": "https://meetings.cshl.edu/meetings.aspx?meet=SINGLE",
+      "deadlines": [
+        {
+          "name": "Abstract",
+          "date": "2025-09-16"
+        },
+        {
+          "name": "Late registration",
+          "date": "2025-11-06"
+        }
+      ]
+    },
+    {
+      "name": "GRC Epigenetics",
+      "year": 2025,
+      "location": "Barcelona, Spain",
+      "start_date": "2025-08-10",
+      "end_date": "2025-08-15",
+      "link": "https://www.grc.org/epigenetics-conference/2025/"
+    },
+    {
+      "name": "ISMB",
+      "full_name": "Intelligent Systems for Molecular Biology 2025",
+      "year": 2025,
+      "location": "Liverpool, UK",
+      "start_date": "2025-07-20",
+      "end_date": "2025-07-24",
+      "link": "https://www.iscb.org/ismbeccb2025/home",
+      "deadlines": [
+        {
+          "name": "Proceedings",
+          "date": "2025-01-23"
+        },
+        {
+          "name": "Talk/Poster abstracts",
+          "date": "2025-04-17"
+        },
+        {
+          "name": "Late posters",
+          "date": "2025-05-15"
+        },
+        {
+          "name": "Registration",
+          "date": "2025-06-13"
+        }
+      ]
+    },
+    {
+      "name": "RECOMB",
+      "year": 2025,
+      "location": "Seoul, Korea, MA",
+      "start_date": "2025-04-26",
+      "end_date": "2025-04-29",
+      "link": "https://recomb.org/recomb2024/",
+      "deadlines": [
+        {
+          "name": "Abstract Registration",
+          "date": "2023-10-16"
+        },
+        {
+          "name": "Poster",
+          "date": "2024-01-27"
+        },
+        {
+          "name": "Full Paper",
+          "date": "2024-10-25"
+        }
+      ]
+    },
+    {
+      "name": "ACM BCB",
+      "full_name": "17th ACM BCB",
+      "year": 2026,
+      "location": "Rende, Calabria, Italy",
+      "start_date": "2026-06-30",
+      "end_date": "2026-07-03",
+      "link": "https://acm-bcb.org/",
+      "deadlines": [
+        {
+          "name": "Abstract",
+          "date": "2026-02-28"
+        }
+      ]
+    },
+    {
+      "name": "AMLC",
+      "full_name": "Applied Machine Learning Conference 2026",
+      "year": 2026,
+      "location": "Charlottesville, VA",
+      "start_date": "2026-04-17",
+      "end_date": "2026-04-18",
+      "link": "https://appliedml.us/2026/cfp/",
+      "attending": true,
+      "deadlines": [
+        {
+          "name": "CFP submission",
+          "date": "2026-02-22"
+        }
+      ]
+    },
+    {
+      "name": "ASHG",
+      "full_name": "American Society of Human Genetics 2026",
+      "year": 2026,
+      "location": "Montreal, QC, Canada",
+      "start_date": "2026-10-20",
+      "end_date": "2026-10-24",
+      "link": "https://www.ashg.org/annual-meeting-2026/",
+      "deadlines": [
+        {
+          "name": "Abstract",
+          "date": "2026-05-18"
+        }
+      ]
+    },
+    {
+      "name": "Bioconductor",
+      "full_name": "BioC2026",
+      "year": 2026,
+      "location": "Seattle, WA",
+      "start_date": "2026-08-10",
+      "end_date": "2026-08-12",
+      "link": "https://bioc2026.bioconductor.org/",
+      "attending": true,
+      "deadlines": [
+        {
+          "name": "Abstract",
+          "date": "2026-03-13"
+        },
+        {
+          "name": "Early registration",
+          "date": "2026-06-15"
+        }
+      ]
+    },
+    {
+      "name": "BMES",
+      "full_name": "BMES Annual Meeting 2026",
+      "year": 2026,
+      "location": "Orlando, FL",
+      "start_date": "2026-10-21",
+      "end_date": "2026-10-24",
+      "link": "https://www.bmes.org/events"
+    },
+    {
+      "name": "CSH Biological Data Science",
+      "full_name": "Cold Spring Harbor Biological Data Science",
+      "year": 2026,
+      "location": "Cold Spring Harbor, NY",
+      "start_date": "2026-11-04",
+      "end_date": "2026-11-07",
+      "link": "https://meetings.cshl.edu/meetings.aspx?meet=DATA",
+      "attending": true,
+      "deadlines": [
+        {
+          "name": "Oral abstract",
+          "date": "2026-08-14"
+        },
+        {
+          "name": "Poster abstract",
+          "date": "2026-10-01"
+        },
+        {
+          "name": "Registration",
+          "date": "2026-10-29"
+        }
+      ]
+    },
+    {
+      "name": "CSH Biology of Genomes",
+      "full_name": "Cold Spring Harbor Biology of Genomes",
+      "year": 2026,
+      "location": "Cold Spring Harbor, NY",
+      "start_date": "2026-05-05",
+      "end_date": "2026-05-09",
+      "link": "https://meetings.cshl.edu/meetings.aspx?meet=GENOME",
+      "deadlines": [
+        {
+          "name": "Abstract submission",
+          "date": "2026-02-13"
+        },
+        {
+          "name": "Late registration",
+          "date": "2026-04-30"
+        }
+      ]
+    },
+    {
+      "name": "CSH Epigenetics and Chromatin",
+      "full_name": "Cold Spring Harbor Epigenetics and Chromatin",
+      "year": 2026,
+      "location": "Cold Spring Harbor, NY",
+      "start_date": "2026-09-15",
+      "end_date": "2026-09-19",
+      "link": "https://meetings.cshl.edu/meetings.aspx?meet=EPICH",
+      "deadlines": [
+        {
+          "name": "Abstract",
+          "date": "2026-06-26"
+        }
+      ]
+    },
+    {
+      "name": "EuroBioC",
+      "full_name": "European Bioconductor Conference 2026",
+      "year": 2026,
+      "location": "Turku, Finland",
+      "start_date": "2026-06-03",
+      "end_date": "2026-06-05",
+      "link": "https://eurobioc2026.bioconductor.org/",
+      "deadlines": [
+        {
+          "name": "Abstract submission",
+          "date": "2026-01-30"
+        }
+      ]
+    },
+    {
+      "name": "GA4GH Connect",
+      "full_name": "Global Alliance for Genomics and Health Connect",
+      "year": 2026,
+      "location": "Montreal, Canada",
+      "start_date": "2026-04-14",
+      "end_date": "2026-04-17",
+      "link": "https://www.ga4gh.org/news-events/events/",
+      "attending": true
+    },
+    {
+      "name": "GA4GH Plenary",
+      "full_name": "Global Alliance for Genomics and Health 14th Plenary",
+      "year": 2026,
+      "location": "Singapore",
+      "start_date": "2026-09-28",
+      "end_date": "2026-10-02",
+      "link": "https://www.ga4gh.org/event/14th-plenary/"
+    },
+    {
+      "name": "Galaxy Community Conference",
+      "full_name": "GCC2026",
+      "year": 2026,
+      "location": "Clermont-Ferrand, France",
+      "start_date": "2026-06-22",
+      "end_date": "2026-06-24",
+      "link": "https://galaxyproject.org/events/gcc2026/",
+      "deadlines": [
+        {
+          "name": "Talk abstracts",
+          "date": "2026-04-06"
+        }
+      ]
+    },
+    {
+      "name": "ISMB",
+      "full_name": "Intelligent Systems for Molecular Biology 2026",
+      "year": 2026,
+      "location": "Washington DC, USA",
+      "start_date": "2026-07-12",
+      "end_date": "2026-07-16",
+      "link": "https://www.iscb.org/ismb2026/home",
+      "attending": true,
+      "deadlines": [
+        {
+          "name": "Abstract",
+          "date": "2026-01-30"
+        }
+      ]
+    },
+    {
+      "name": "MLCB",
+      "full_name": "Machine Learning in Computational Biology 2026",
+      "year": 2026,
+      "location": "New York City, NY",
+      "start_date": "2026-11-16",
+      "end_date": "2026-11-17",
+      "link": "https://www.mlcb.org/"
+    },
+    {
+      "name": "NeurIPS",
+      "full_name": "Conference on Neural Information Processing Systems 2026",
+      "year": 2026,
+      "location": "Sydney, Australia",
+      "start_date": "2026-12-06",
+      "end_date": "2026-12-12",
+      "link": "https://neurips.cc/Conferences/2026",
+      "deadlines": [
+        {
+          "name": "Abstract",
+          "date": "2026-05-04"
+        },
+        {
+          "name": "Full paper",
+          "date": "2026-05-06"
+        }
+      ]
+    },
+    {
+      "name": "Pacific Symposium on Biocomputing",
+      "full_name": "PSB 2026",
+      "year": 2026,
+      "location": "Big Island of Hawaii",
+      "start_date": "2026-01-03",
+      "end_date": "2026-01-07",
+      "link": "https://psb.stanford.edu/",
+      "deadlines": [
+        {
+          "name": "Paper submissions due",
+          "date": "2025-09-08"
+        },
+        {
+          "name": "Early registration",
+          "date": "2025-10-31"
+        }
+      ]
+    },
+    {
+      "name": "RECOMB",
+      "full_name": "30th Research in Computational Molecular Biology",
+      "year": 2026,
+      "location": "Thessaloniki, Greece",
+      "start_date": "2026-05-26",
+      "end_date": "2026-05-29",
+      "link": "http://recomb.org/recomb2026/",
+      "deadlines": [
+        {
+          "name": "Abstract",
+          "date": "2025-11-20"
+        }
+      ]
+    },
+    {
+      "name": "useR",
+      "full_name": "useR! 2026",
+      "year": 2026,
+      "location": "Warsaw, Poland",
+      "start_date": "2026-07-06",
+      "end_date": "2026-07-09",
+      "link": "https://user2026.r-project.org/"
+    },
+    {
+      "name": "WABI",
+      "full_name": "Workshop on Algorithms in Bioinformatics 2026",
+      "year": 2026,
+      "location": "L'Aquila, Italy",
+      "start_date": "2026-08-31",
+      "end_date": "2026-09-02",
+      "link": "https://algo-conference.org/2026/wabi/",
+      "deadlines": [
+        {
+          "name": "Abstract",
+          "date": "2026-05-14"
+        },
+        {
+          "name": "Full paper",
+          "date": "2026-05-21"
+        }
+      ]
+    },
+    {
+      "name": "ASHG",
+      "full_name": "American Society of Human Genetics 2027",
+      "year": 2027,
+      "location": "Nashville, TN",
+      "start_date": "2027-10-26",
+      "end_date": "2027-10-30",
+      "link": "https://www.ashg.org/meetings/future-past/"
+    },
+    {
+      "name": "BMES",
+      "full_name": "BMES Annual Meeting 2027",
+      "year": 2027,
+      "location": "Columbus, OH",
+      "start_date": "2027-10-07",
+      "end_date": "2027-10-10",
+      "link": "https://www.bmes.org/events"
+    },
+    {
+      "name": "CSH Biology of Genomes",
+      "full_name": "Cold Spring Harbor Biology of Genomes",
+      "year": 2027,
+      "location": "Cold Spring Harbor, NY",
+      "start_date": "2027-05-11",
+      "end_date": "2027-05-15",
+      "link": "https://meetings.cshl.edu/meetings.aspx?meet=GENOME",
+      "deadlines": [
+        {
+          "name": "Abstract submission",
+          "date": "2027-02-19"
+        }
+      ]
+    },
+    {
+      "name": "EuroBioC",
+      "full_name": "European Bioconductor Conference 2027",
+      "year": 2027,
+      "location": "Basel, Switzerland",
+      "start_date": "2027-09-08",
+      "end_date": "2027-09-10"
+    },
+    {
+      "name": "GA4GH Connect",
+      "full_name": "Global Alliance for Genomics and Health Connect",
+      "year": 2027,
+      "start_date": "2027-04-27"
+    },
+    {
+      "name": "Galaxy Community Conference",
+      "full_name": "GCC2027",
+      "year": 2027,
+      "location": "Montreal, Canada"
+    },
+    {
+      "name": "GRC Epigenetics",
+      "year": 2027,
+      "location": "Holderness, NH",
+      "start_date": "2027-08-01",
+      "end_date": "2027-08-06",
+      "link": "https://www.grc.org/epigenetics-conference/2027/",
+      "deadlines": [
+        {
+          "name": "Application",
+          "date": "2027-07-04"
+        }
+      ]
+    },
+    {
+      "name": "ISMB",
+      "full_name": "Intelligent Systems for Molecular Biology 2027",
+      "year": 2027,
+      "location": "Copenhagen, Denmark",
+      "start_date": "2027-07-18",
+      "end_date": "2027-07-22"
+    },
+    {
+      "name": "Pacific Symposium on Biocomputing",
+      "full_name": "PSB 2027",
+      "year": 2027,
+      "location": "Big Island of Hawaii",
+      "start_date": "2027-01-03",
+      "end_date": "2027-01-07",
+      "link": "https://psb.stanford.edu/",
+      "deadlines": [
+        {
+          "name": "Paper submissions due",
+          "date": "2026-08-03"
+        },
+        {
+          "name": "Early registration",
+          "date": "2026-10-31"
+        }
+      ]
+    },
+    {
+      "name": "RECOMB",
+      "full_name": "31st Research in Computational Molecular Biology",
+      "year": 2027,
+      "location": "Toronto, Canada"
+    }
+  ]
+}

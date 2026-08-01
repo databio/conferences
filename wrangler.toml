@@ -1,0 +1,16 @@
+name = "conferences"
+main = "src/index.ts"
+compatibility_date = "2025-01-15"
+
+# Community read API — no anonymous surface concerns (public data), but keep it
+# on the custom domain so the canonical URL is conferences.databio.org.
+workers_dev = false
+routes = [
+  { pattern = "conferences.databio.org", custom_domain = true },
+]
+
+# GitHub token for the POST /suggest -> open-a-PR flow is a Worker secret:
+#   wrangler secret put GITHUB_TOKEN
+# Non-secret config:
+[vars]
+GITHUB_REPO = "databio/conferences"

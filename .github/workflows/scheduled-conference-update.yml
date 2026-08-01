@@ -1,0 +1,83 @@
+name: Scheduled conference update
+
+# Weekly AI refresh of computational-biology conference dates and deadlines.
+#
+# Claude edits data/conferences.json (the source of truth) in place with
+# researched updates, then the file is normalized and a PR is opened. The PR
+# shows a real line diff so a reviewer sees exactly what changed. Merging to
+# main redeploys the API (deploy.yml) with the new data. No database.
+# See .claude/skills/update-conferences/SKILL.md.
+
+on:
+  schedule:
+    - cron: "0 6 * * 1"  # 06:00 UTC every Monday
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+  id-token: write
+  actions: read
+
+jobs:
+  update-conferences:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Run Claude Code to update the data file
+        uses: anthropics/claude-code-action@v1
+        with:
+          prompt: |
+            Follow .claude/skills/update-conferences/SKILL.md to refresh
+            conference dates and deadlines for the current year and next year.
+
+            Edit the existing file data/conferences.json IN PLACE — it already
+            holds the current state. Update changed dates/deadlines and add new
+            conference-year entries; do not rewrite untouched rows.
+
+            Do ALL the research yourself in this single session, synchronously.
+            Do NOT spawn subagents or background tasks and do NOT end your turn
+            waiting for anything — there is no orchestrator to re-invoke you, so
+            if you delegate and stop, nothing gets written. Do not finish until
+            your edits to data/conferences.json are saved (or you have
+            deliberately decided, after researching, that nothing changed).
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          claude_args: '--allowedTools "Bash(*),Read(*),Write(*),Edit(*),Glob(*),Grep(*),WebSearch,WebFetch"'
+          show_full_output: true
+
+      - name: Normalize + validate
+        run: |
+          node scripts/normalize.mjs data/conferences.json
+          node scripts/validate.mjs
+
+      - name: Assemble PR body
+        run: |
+          BODY=/tmp/conference-pr-body.md
+          if [ ! -f "$BODY" ]; then
+            echo "Automated weekly refresh of conference dates and deadlines." > "$BODY"
+          fi
+          {
+            echo ""
+            echo "---"
+            echo "_Merging redeploys conferences.databio.org with the updated data._"
+          } >> "$BODY"
+
+      - name: Open pull request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: conference-update
+          add-paths: data/conferences.json
+          commit-message: "Weekly conference update"
+          title: "Weekly conference update"
+          body-path: /tmp/conference-pr-body.md
+          labels: |
+            conference-update
+            needs-review
+          draft: false

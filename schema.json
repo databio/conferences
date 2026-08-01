@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://conferences.databio.org/schema.json",
+  "title": "Conference",
+  "description": "One conference instance (a series in a given year) in conferences.databio.org. The curated file data/conferences.json is { \"conferences\": [ <this> ] }. `slug` and `id` are derived by the API from `name`+`year` unless present.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["name", "year"],
+  "properties": {
+    "name": { "type": "string", "description": "Short display name, e.g. \"ISMB\", \"RECOMB\"." },
+    "full_name": { "type": "string", "description": "Expanded name, if useful." },
+    "year": { "type": "integer", "minimum": 1990, "maximum": 2100 },
+    "location": { "type": "string" },
+    "start_date": { "type": "string", "format": "date", "description": "ISO YYYY-MM-DD." },
+    "end_date": { "type": "string", "format": "date" },
+    "link": { "type": "string", "format": "uri" },
+    "deadlines": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "date"],
+        "properties": {
+          "name": { "type": "string", "description": "Milestone label, e.g. \"Abstracts\", \"Proceedings\"." },
+          "date": { "type": "string", "format": "date" }
+        }
+      }
+    },
+    "note": { "type": "string" },
+    "attending": { "type": "boolean", "description": "Lab-internal: whether the lab plans to attend. Optional." },
+    "slug": { "type": "string", "description": "Optional stable series id; overrides the derived slug." }
+  }
+}
