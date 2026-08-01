@@ -44,10 +44,12 @@ describe('read endpoints', () => {
     const rows = (await r.json()) as { year: number }[]
     expect(rows.every((c) => c.year === 2026)).toBe(true)
   })
-  it('GET /deadlines?days= filters to a window', async () => {
-    const r = await get('/deadlines?days=30')
-    expect(r.status).toBe(200)
-    expect(Array.isArray(await r.json())).toBe(true)
+  it('GET /deadlines?days= returns only the next N days (no past dates)', async () => {
+    const r = await get('/deadlines?days=3650')
+    const rows = (await r.json()) as { date: string }[]
+    const today = new Date().toISOString().slice(0, 10)
+    expect(rows.length).toBeGreaterThan(0)
+    expect(rows.every((d) => d.date >= today)).toBe(true)
   })
   it('GET /{slug} returns the series', async () => {
     const r = await get('/ismb')
@@ -69,7 +71,7 @@ describe('read endpoints', () => {
     expect(await r.text()).toContain('BEGIN:VCALENDAR')
   })
   it('GET /stats + /schema.json + /openapi.json', async () => {
-    expect((await (await get('/stats')).json())).toHaveProperty('last_updated')
+    expect((await (await get('/stats')).json())).toHaveProperty('coverage_through')
     expect((await (await get('/schema.json')).json())).toHaveProperty('title', 'Conference')
     expect((await (await get('/openapi.json')).json())).toHaveProperty('openapi')
   })

@@ -7,7 +7,7 @@ import {
   filterConferences,
   filterDeadlines,
   instance,
-  lastUpdated,
+  coverageThrough,
   series,
   slugifySeries,
   type Conference,
@@ -97,7 +97,7 @@ export default {
             conferences: allConferences().length,
             series: new Set(allConferences().map((c) => c.slug)).size,
             deadlines: allDeadlines().length,
-            last_updated: lastUpdated(),
+            coverage_through: coverageThrough(),
           })
         case 'schema.json':
           return json(schema)

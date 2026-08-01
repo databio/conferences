@@ -117,8 +117,8 @@ export function allDeadlines(): DeadlineRow[] {
   return deadlineRows
 }
 
-export function lastUpdated(): string {
-  // Newest date present in the dataset — a cheap freshness signal.
+export function coverageThrough(): string {
+  // The furthest-future date present in the dataset (how far ahead coverage goes).
   let max = ''
   for (const c of conferences) {
     for (const d of [c.start_date, c.end_date, ...(c.deadlines ?? []).map((x) => x.date)]) {
@@ -162,9 +162,12 @@ export interface DeadlineFilter {
 }
 
 export function filterDeadlines(f: DeadlineFilter): DeadlineRow[] {
+  // `days=N` means "the next N days": it pins the window to [today, today+N].
+  // Otherwise the window is the explicit [from, to] (either bound optional).
+  const from = f.days != null && f.today ? f.today : f.from
   const to = f.days != null && f.today ? addDays(f.today, f.days) : f.to
   return deadlineRows.filter((d) => {
-    if (f.from && d.date < f.from) return false
+    if (from && d.date < from) return false
     if (to && d.date > to) return false
     if (f.kind && d.kind.toLowerCase() !== f.kind.toLowerCase()) return false
     return true
