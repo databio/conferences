@@ -977,6 +977,13 @@
       "end_date": "2027-07-22"
     },
     {
+      "name": "NeurIPS",
+      "full_name": "Conference on Neural Information Processing Systems 2027",
+      "year": 2027,
+      "location": "Europe",
+      "link": "https://neurips.cc/Conferences/FutureMeetings"
+    },
+    {
       "name": "Pacific Symposium on Biocomputing",
       "full_name": "PSB 2027",
       "year": 2027,
@@ -1000,6 +1007,13 @@
       "full_name": "31st Research in Computational Molecular Biology",
       "year": 2027,
       "location": "Toronto, Canada"
+    },
+    {
+      "name": "WABI",
+      "full_name": "Workshop on Algorithms in Bioinformatics 2027",
+      "year": 2027,
+      "location": "Tokyo, Japan",
+      "link": "https://www.wabi-conference.org/"
     }
   ]
 }
