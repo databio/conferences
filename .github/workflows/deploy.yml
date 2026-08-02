@@ -1,24 +1,35 @@
-name: deploy
+name: Deploy to Cloudflare Workers
 
-# Redeploys the Worker whenever the data or code changes on main — this is the
-# "sync": a merge to main bundles the current data/conferences.json into the
-# Worker at the edge.
+# Redeploys the Worker whenever data or code changes on main — this is the
+# "sync": a merge bundles the current data/conferences.json into the Worker at
+# the edge. Follows the databio Cloudflare-deploy pattern (see pabc/lab-portal).
 on:
   push:
-    branches: [main]
+    branches:
+      - main
+  workflow_dispatch:
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
         with:
-          node-version: 20
-          cache: npm
-      - run: npm ci
-      - run: npm run validate
-      - uses: cloudflare/wrangler-action@v3
+          node-version: 24
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Validate data
+        run: npm run validate
+
+      - name: Deploy
+        uses: cloudflare/wrangler-action@v4
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          wranglerVersion: '4'
