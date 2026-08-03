@@ -757,7 +757,15 @@
       "deadlines": [
         {
           "name": "Abstract submission",
-          "date": "2026-01-30"
+          "date": "2026-02-13"
+        },
+        {
+          "name": "Late-breaking poster abstract",
+          "date": "2026-05-18"
+        },
+        {
+          "name": "Registration",
+          "date": "2026-05-18"
         }
       ]
     },
