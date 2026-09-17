@@ -1,13 +1,17 @@
-name: Manual conference update with Claude
+name: Scheduled conference update with Claude
 
-# Manual fallback for the conference updater.
-# The recurring weekly schedule is handled by a ChatGPT Scheduled Task.
+# Transitional fallback for the conference updater.
+# Keep the working weekly Claude schedule until the ChatGPT Scheduled Task has
+# successfully produced a real update PR. Then remove the schedule in a
+# follow-up and retain workflow_dispatch as a manual fallback.
 #
 # All research and editing rules live in automation/update-conferences.md.
 # The Claude skill is a thin wrapper that writes the review summary expected
 # by this workflow.
 
 on:
+  schedule:
+    - cron: "0 6 * * 1"  # 06:00 UTC every Monday
   workflow_dispatch:
 
 permissions:
@@ -51,7 +55,7 @@ jobs:
         run: |
           BODY=/tmp/conference-pr-body.md
           if [ ! -f "$BODY" ]; then
-            echo "Manual AI refresh of conference dates and deadlines." > "$BODY"
+            echo "Automated refresh of conference dates and deadlines." > "$BODY"
           fi
           {
             echo ""
