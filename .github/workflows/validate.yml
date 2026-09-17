@@ -15,6 +15,10 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
+      - name: Check canonical conference JSON
+        run: |
+          node scripts/normalize.mjs data/conferences.json
+          git diff --exit-code -- data/conferences.json
       - run: npm run validate
       - run: npm run typecheck
       - run: npm test
