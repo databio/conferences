@@ -100,7 +100,15 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          git fetch origin main conference-update
+          git fetch origin main
+
+          # A brand-new branch is only pushed when there are data changes.
+          if ! git ls-remote --exit-code --heads origin conference-update >/dev/null 2>&1; then
+            echo "No conference-update branch exists; nothing to review"
+            exit 0
+          fi
+
+          git fetch origin conference-update
 
           # If the shared branch has no changes relative to main, there is
           # nothing to review and no PR should be opened.
