@@ -1,17 +1,16 @@
-name: Scheduled conference update with Claude
+name: Manual conference update with Claude
 
-# Transitional fallback for the conference updater.
-# Keep the working weekly Claude schedule until the ChatGPT Scheduled Task has
-# successfully produced a real update PR. Then remove the schedule in a
-# follow-up and retain workflow_dispatch as a manual fallback.
+# Manual Claude fallback for the conference updater.
+# The normal recurring schedule is handled by a ChatGPT Scheduled Task.
+#
+# Both agents use the durable conference-update branch. If that branch already
+# exists, this workflow starts from it so pending unmerged changes are preserved.
 #
 # All research and editing rules live in automation/update-conferences.md.
 # The Claude skill is a thin wrapper that writes the review summary expected
 # by this workflow.
 
 on:
-  schedule:
-    - cron: "0 6 * * 1"  # 06:00 UTC every Monday
   workflow_dispatch:
 
 permissions:
@@ -20,13 +19,29 @@ permissions:
   id-token: write
   actions: read
 
+concurrency:
+  group: conference-update
+  cancel-in-progress: false
+
 jobs:
   update-conferences:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
         with:
-          fetch-depth: 1
+          fetch-depth: 0
+
+      - name: Start from shared conference-update branch
+        run: |
+          git fetch origin main
+          if git ls-remote --exit-code --heads origin conference-update >/dev/null 2>&1; then
+            git fetch origin conference-update
+            git checkout -B conference-update origin/conference-update
+            echo "Continuing existing conference-update branch"
+          else
+            git checkout -B conference-update origin/main
+            echo "Starting new conference-update branch from main"
+          fi
 
       - uses: actions/setup-node@v6
         with:
@@ -38,6 +53,11 @@ jobs:
           prompt: |
             Use the update-conferences skill to run the recurring conference
             refresh. Follow automation/update-conferences.md completely.
+
+            The workflow has already checked out the shared conference-update
+            branch if it exists. Treat the current working copy of
+            data/conferences.json as authoritative current state and preserve
+            all valid pending changes already present.
 
             Edit data/conferences.json in place with only verified changes.
             Do all research synchronously in this run. If nothing changed,
@@ -55,7 +75,7 @@ jobs:
         run: |
           BODY=/tmp/conference-pr-body.md
           if [ ! -f "$BODY" ]; then
-            echo "Automated refresh of conference dates and deadlines." > "$BODY"
+            echo "Manual AI refresh of conference dates and deadlines." > "$BODY"
           fi
           {
             echo ""
@@ -63,15 +83,48 @@ jobs:
             echo "_Merging redeploys conferences.databio.org with the updated data._"
           } >> "$BODY"
 
-      - name: Open pull request
-        uses: peter-evans/create-pull-request@v7
-        with:
-          branch: conference-update
-          add-paths: data/conferences.json
-          commit-message: "Conference update"
-          title: "Conference update"
-          body-path: /tmp/conference-pr-body.md
-          labels: |
-            conference-update
-            needs-review
-          draft: false
+      - name: Commit shared-branch changes
+        run: |
+          if git diff --quiet -- data/conferences.json; then
+            echo "No new data changes to commit"
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/conferences.json
+          git commit -m "Conference update"
+          git push origin HEAD:conference-update
+
+      - name: Ensure review PR exists
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git fetch origin main conference-update
+
+          # If the shared branch has no changes relative to main, there is
+          # nothing to review and no PR should be opened.
+          if git diff --quiet origin/main...origin/conference-update -- data/conferences.json; then
+            echo "conference-update has no pending data changes relative to main"
+            exit 0
+          fi
+
+          PR_NUMBER=$(gh pr list \
+            --state open \
+            --head conference-update \
+            --base main \
+            --json number \
+            --jq '.[0].number // empty')
+
+          if [ -n "$PR_NUMBER" ]; then
+            gh pr edit "$PR_NUMBER" --body-file /tmp/conference-pr-body.md
+            echo "Updated existing PR #$PR_NUMBER"
+          else
+            gh pr create \
+              --base main \
+              --head conference-update \
+              --title "Conference update" \
+              --body-file /tmp/conference-pr-body.md \
+              --label conference-update \
+              --label needs-review
+          fi
