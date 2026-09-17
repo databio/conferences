@@ -47,16 +47,21 @@ researches the current and next calendar year from official conference sources,
 updates only verified fields in `data/conferences.json`, and leaves uncertain
 information untouched.
 
-A ChatGPT Scheduled Task performs the normal weekly refresh using the connected
-GitHub repository and opens a review PR when verified data changes. `AGENTS.md`
-contains the ChatGPT-specific GitHub/PR behavior.
+A ChatGPT Scheduled Task is being introduced as the normal weekly refresh using
+the connected GitHub repository. `AGENTS.md` contains the ChatGPT-specific
+GitHub/PR behavior. Both ChatGPT and Claude use the shared `conference-update`
+branch: if a review PR is already open, the next run continues from that branch
+and adds newly verified changes to the same PR rather than creating a duplicate.
 
-The Claude Code workflow at
-`.github/workflows/scheduled-conference-update.yml` is retained as a manual
-`workflow_dispatch` fallback. Its skill file is only a thin wrapper around the
-same canonical instructions, so the two agents follow the same curation rules.
+During the rollout, the existing Claude Code workflow at
+`.github/workflows/scheduled-conference-update.yml` remains scheduled weekly and
+also supports `workflow_dispatch`. Keep that working cron until the ChatGPT
+Scheduled Task has successfully produced a real update PR; after that, remove
+the Claude schedule in a follow-up and retain it as a manual fallback. Its skill
+file is only a thin wrapper around the same canonical instructions.
 
-Pull-request CI validates the data, typechecks the project, and runs the test
+Pull-request CI verifies that `data/conferences.json` is already in canonical
+normalized form, validates the data, typechecks the project, and runs the test
 suite before changes are merged.
 
 ## Contributing
