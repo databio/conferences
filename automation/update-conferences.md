@@ -56,6 +56,15 @@ If the target-year site is not published, or a field is genuinely unknown,
 omit it or leave the existing value untouched as appropriate. **Never infer or
 guess a date.**
 
+For deadlines that are already in the past:
+
+- Correct an existing deadline when an official source clearly shows the stored
+  value is wrong. Historical accuracy is still useful.
+- Do not add a previously missing deadline solely for historical completeness
+  after that deadline has already passed.
+- Prioritize newly published or changed dates and deadlines that are still
+  current or actionable.
+
 ### 3. Decide whether each row needs a change
 
 For each conference-year instance:
@@ -124,8 +133,10 @@ summary should contain these sections:
 
 - **New this cycle** — newly added conference-year instances and their dates
 - **Updated** — each material change, preferably as `old → new`
-- **Not found / left alone** — target-year official pages or fields that could
-  not be verified
+- **Not found / left alone** — name each tracked conference that was checked but
+  left unchanged because the target-year official page or relevant fields could
+  not be verified. Be specific about what was unavailable when useful; do not
+  use vague phrases such as "several conferences."
 - **Flagged** — anything a reviewer should double-check
 
 Keep the summary factual and link to official sources for material updates when
@@ -146,4 +157,9 @@ Make no repository changes. Do not create an empty commit or pull request.
   unrelated content.
 - **Current + next year by default.** Re-scan both on every recurring run so
   later-published information is naturally picked up.
+- **Past deadlines: correct, don't backfill.** Fix an existing wrong past
+  deadline when verified, but do not add missing deadlines that are already
+  over solely to improve historical completeness.
+- **Review summary must be specific.** Name conferences left unchanged because
+  official information could not be verified.
 - **Human review.** Never merge the resulting pull request automatically.
