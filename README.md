@@ -2,7 +2,7 @@
 
 An **AI-curated, git-backed API of computational-biology conferences and their deadlines.**
 
-Most conference-deadline sites are a static countdown page over a YAML file with no API, and they go stale when the community stops contributing. This one is different in two ways: it exposes a real **query API** (so humans *and* AI agents can pull current data), and the dataset is kept fresh by a **monthly AI-curation agent** on top of community PRs.
+Most conference-deadline sites are a static countdown page over a YAML file with no API, and they go stale when the community stops contributing. This one is different in two ways: it exposes a real **query API** (so humans *and* AI agents can pull current data), and the dataset is kept fresh by a **weekly AI-curation task** on top of community PRs.
 
 Scope: **computational biology / bioinformatics / genomics** conferences with deadlines.
 
@@ -38,6 +38,33 @@ npm run typecheck   # tsc --noEmit
 npm run validate    # lint data/conferences.json
 npm run dev         # wrangler dev (local)
 ```
+
+## Automated curation
+
+The recurring conference-research procedure lives in
+[`automation/update-conferences.md`](automation/update-conferences.md). It
+researches the current and next calendar year from official conference sources,
+updates only verified fields in `data/conferences.json`, and leaves uncertain
+information untouched.
+
+A ChatGPT Scheduled Task performs the normal weekly refresh using the connected
+GitHub repository. `AGENTS.md` contains the ChatGPT-specific GitHub/PR behavior.
+The Claude Code workflow at
+`.github/workflows/scheduled-conference-update.yml` is a manual
+`workflow_dispatch` fallback; its skill file is only a thin wrapper around the
+same canonical instructions.
+
+Both paths use `conference-update` as a durable staging branch. If that remote
+branch already exists, the agent starts from it and treats its
+`data/conferences.json` as current state, preserving pending unmerged changes.
+If an open PR already uses that branch, new verified changes are added to the
+same PR. If the branch exists without an open PR, the agent continues from it
+and opens a review PR when the branch contains pending data changes. Only when
+`conference-update` does not exist does a run start from current `main`.
+
+Pull-request CI verifies that `data/conferences.json` is already in canonical
+normalized form, validates the data, typechecks the project, and runs the test
+suite before changes are merged.
 
 ## Contributing
 

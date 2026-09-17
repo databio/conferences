@@ -1,16 +1,16 @@
-name: Scheduled conference update
+name: Manual conference update with Claude
 
-# Weekly AI refresh of computational-biology conference dates and deadlines.
+# Manual Claude fallback for the conference updater.
+# The normal recurring schedule is handled by a ChatGPT Scheduled Task.
 #
-# Claude edits data/conferences.json (the source of truth) in place with
-# researched updates, then the file is normalized and a PR is opened. The PR
-# shows a real line diff so a reviewer sees exactly what changed. Merging to
-# main redeploys the API (deploy.yml) with the new data. No database.
-# See .claude/skills/update-conferences/SKILL.md.
+# Both agents use the durable conference-update branch. If that branch already
+# exists, this workflow starts from it so pending unmerged changes are preserved.
+#
+# All research and editing rules live in automation/update-conferences.md.
+# The Claude skill is a thin wrapper that writes the review summary expected
+# by this workflow.
 
 on:
-  schedule:
-    - cron: "0 6 * * 1"  # 06:00 UTC every Monday
   workflow_dispatch:
 
 permissions:
@@ -19,13 +19,29 @@ permissions:
   id-token: write
   actions: read
 
+concurrency:
+  group: conference-update
+  cancel-in-progress: false
+
 jobs:
   update-conferences:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
         with:
-          fetch-depth: 1
+          fetch-depth: 0
+
+      - name: Start from shared conference-update branch
+        run: |
+          git fetch origin main
+          if git ls-remote --exit-code --heads origin conference-update >/dev/null 2>&1; then
+            git fetch origin conference-update
+            git checkout -B conference-update origin/conference-update
+            echo "Continuing existing conference-update branch"
+          else
+            git checkout -B conference-update origin/main
+            echo "Starting new conference-update branch from main"
+          fi
 
       - uses: actions/setup-node@v6
         with:
@@ -35,19 +51,17 @@ jobs:
         uses: anthropics/claude-code-action@v1
         with:
           prompt: |
-            Follow .claude/skills/update-conferences/SKILL.md to refresh
-            conference dates and deadlines for the current year and next year.
+            Use the update-conferences skill to run the recurring conference
+            refresh. Follow automation/update-conferences.md completely.
 
-            Edit the existing file data/conferences.json IN PLACE — it already
-            holds the current state. Update changed dates/deadlines and add new
-            conference-year entries; do not rewrite untouched rows.
+            The workflow has already checked out the shared conference-update
+            branch if it exists. Treat the current working copy of
+            data/conferences.json as authoritative current state and preserve
+            all valid pending changes already present.
 
-            Do ALL the research yourself in this single session, synchronously.
-            Do NOT spawn subagents or background tasks and do NOT end your turn
-            waiting for anything — there is no orchestrator to re-invoke you, so
-            if you delegate and stop, nothing gets written. Do not finish until
-            your edits to data/conferences.json are saved (or you have
-            deliberately decided, after researching, that nothing changed).
+            Edit data/conferences.json in place with only verified changes.
+            Do all research synchronously in this run. If nothing changed,
+            leave the file untouched.
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           claude_args: '--allowedTools "Bash(*),Read(*),Write(*),Edit(*),Glob(*),Grep(*),WebSearch,WebFetch"'
           show_full_output: true
@@ -61,7 +75,7 @@ jobs:
         run: |
           BODY=/tmp/conference-pr-body.md
           if [ ! -f "$BODY" ]; then
-            echo "Automated weekly refresh of conference dates and deadlines." > "$BODY"
+            echo "Manual AI refresh of conference dates and deadlines." > "$BODY"
           fi
           {
             echo ""
@@ -69,15 +83,56 @@ jobs:
             echo "_Merging redeploys conferences.databio.org with the updated data._"
           } >> "$BODY"
 
-      - name: Open pull request
-        uses: peter-evans/create-pull-request@v7
-        with:
-          branch: conference-update
-          add-paths: data/conferences.json
-          commit-message: "Weekly conference update"
-          title: "Weekly conference update"
-          body-path: /tmp/conference-pr-body.md
-          labels: |
-            conference-update
-            needs-review
-          draft: false
+      - name: Commit shared-branch changes
+        run: |
+          if git diff --quiet -- data/conferences.json; then
+            echo "No new data changes to commit"
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/conferences.json
+          git commit -m "Conference update"
+          git push origin HEAD:conference-update
+
+      - name: Ensure review PR exists
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git fetch origin main
+
+          # A brand-new branch is only pushed when there are data changes.
+          if ! git ls-remote --exit-code --heads origin conference-update >/dev/null 2>&1; then
+            echo "No conference-update branch exists; nothing to review"
+            exit 0
+          fi
+
+          git fetch origin conference-update
+
+          # If the shared branch has no changes relative to main, there is
+          # nothing to review and no PR should be opened.
+          if git diff --quiet origin/main...origin/conference-update -- data/conferences.json; then
+            echo "conference-update has no pending data changes relative to main"
+            exit 0
+          fi
+
+          PR_NUMBER=$(gh pr list \
+            --state open \
+            --head conference-update \
+            --base main \
+            --json number \
+            --jq '.[0].number // empty')
+
+          if [ -n "$PR_NUMBER" ]; then
+            gh pr edit "$PR_NUMBER" --body-file /tmp/conference-pr-body.md
+            echo "Updated existing PR #$PR_NUMBER"
+          else
+            gh pr create \
+              --base main \
+              --head conference-update \
+              --title "Conference update" \
+              --body-file /tmp/conference-pr-body.md \
+              --label conference-update \
+              --label needs-review
+          fi
