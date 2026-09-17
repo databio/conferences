@@ -47,18 +47,20 @@ researches the current and next calendar year from official conference sources,
 updates only verified fields in `data/conferences.json`, and leaves uncertain
 information untouched.
 
-A ChatGPT Scheduled Task is being introduced as the normal weekly refresh using
-the connected GitHub repository. `AGENTS.md` contains the ChatGPT-specific
-GitHub/PR behavior. Both ChatGPT and Claude use the shared `conference-update`
-branch: if a review PR is already open, the next run continues from that branch
-and adds newly verified changes to the same PR rather than creating a duplicate.
+A ChatGPT Scheduled Task performs the normal weekly refresh using the connected
+GitHub repository. `AGENTS.md` contains the ChatGPT-specific GitHub/PR behavior.
+The Claude Code workflow at
+`.github/workflows/scheduled-conference-update.yml` is a manual
+`workflow_dispatch` fallback; its skill file is only a thin wrapper around the
+same canonical instructions.
 
-During the rollout, the existing Claude Code workflow at
-`.github/workflows/scheduled-conference-update.yml` remains scheduled weekly and
-also supports `workflow_dispatch`. Keep that working cron until the ChatGPT
-Scheduled Task has successfully produced a real update PR; after that, remove
-the Claude schedule in a follow-up and retain it as a manual fallback. Its skill
-file is only a thin wrapper around the same canonical instructions.
+Both paths use `conference-update` as a durable staging branch. If that remote
+branch already exists, the agent starts from it and treats its
+`data/conferences.json` as current state, preserving pending unmerged changes.
+If an open PR already uses that branch, new verified changes are added to the
+same PR. If the branch exists without an open PR, the agent continues from it
+and opens a review PR when the branch contains pending data changes. Only when
+`conference-update` does not exist does a run start from current `main`.
 
 Pull-request CI verifies that `data/conferences.json` is already in canonical
 normalized form, validates the data, typechecks the project, and runs the test
