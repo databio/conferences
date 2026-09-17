@@ -4,9 +4,10 @@ Refresh conference dates and deadlines by editing the source-of-truth file
 `data/conferences.json` in place.
 
 This is the canonical procedure for the recurring conference update. Agent-
-specific wrappers may control how changes are committed or published, but they
-must not weaken the research, verification, editing, or review rules in this
-file.
+specific wrappers should primarily point here rather than duplicate these rules.
+They may control environment-specific mechanics, but they must not weaken or
+replace the research, verification, editing, branch, review, or publication
+rules in this file.
 
 The repository is the single source of truth. Merging a pull request redeploys
 the API with the new data. There is no database.
@@ -20,12 +21,42 @@ the API with the new data. There is no database.
 - **Target years:** the current calendar year and the next calendar year unless
   the task explicitly says otherwise.
 
+## Recurring automation workflow
+
+For recurring automated conference refreshes, use the shared durable branch
+`conference-update`.
+
+- First check whether the remote `conference-update` branch exists.
+  - If it exists, start from that branch. Treat its version of
+    `data/conferences.json` as the current state and preserve all valid unmerged
+    changes already present there.
+  - If it does not exist, create `conference-update` from the current `main`.
+- Check whether an open pull request already uses `conference-update` as its
+  head branch.
+- Never discard or overwrite valid pending changes already on the shared branch.
+- The conference refresh itself may update only `data/conferences.json`.
+- If research finds no new verified data changes, do not create an unnecessary
+  data commit. However, if `conference-update` already differs from `main` and
+  has no open pull request, open the review pull request for those pending
+  changes.
+- If an open `conference-update` pull request already exists, push any new data
+  commit to the same branch so that pull request is updated.
+- Otherwise, when `conference-update` differs from `main`, open a pull request
+  against `main` titled `Conference update` and include the review summary
+  defined below.
+- Apply the `conference-update` and `needs-review` labels when available.
+- Never merge or enable automatic merging. Human review is required.
+
 ## Process
 
 ### 1. Read current state and tracking configuration
 
 Read both `data/conferences.json` and
 `scripts/recurring_conferences.seed.yaml` before researching anything.
+
+For recurring automation, read `data/conferences.json` from the established
+`conference-update` working branch, not from `main`, so valid pending changes are
+preserved.
 
 The stable identity key for a conference instance is `name` + `year`. Never
 change a recurring conference's stable `name` merely because its branding or
@@ -144,7 +175,10 @@ possible.
 
 ### 7. If nothing changed
 
-Make no repository changes. Do not create an empty commit or pull request.
+Make no data change and do not create an empty commit. For recurring automation,
+still follow the durable-branch workflow above: if valid pending changes already
+exist on `conference-update` and no review pull request is open, open that pull
+request without manufacturing a new data commit.
 
 ## Important rules
 
@@ -162,4 +196,9 @@ Make no repository changes. Do not create an empty commit or pull request.
   over solely to improve historical completeness.
 - **Review summary must be specific.** Name conferences left unchanged because
   official information could not be verified.
-- **Human review.** Never merge the resulting pull request automatically.
+- **Durable review branch.** Preserve valid unmerged work already on
+  `conference-update` and continue its existing pull request when present.
+- **Only the data file changes during a refresh.** Automated conference refreshes
+  modify only `data/conferences.json`.
+- **Human review.** Never merge or enable automatic merging of the conference
+  update pull request.
