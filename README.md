@@ -10,7 +10,7 @@ Scope: **computational biology / bioinformatics / genomics** conferences with de
 
 The dataset is a single file — [`data/conferences.json`](data/conferences.json) — shaped `{ "conferences": [ ... ] }`. It is bundled into a Cloudflare Worker at deploy time and served from memory at the edge. There is **no database**: reads come from the file, corrections are GitHub PRs.
 
-Each record: `name`, `year`, optional `full_name`, `location`, `start_date`, `end_date`, `link`, `deadlines: [{name, date}]`, `note`. The API derives a stable series `slug` and instance `id` (`slug-year`). See [`schema.json`](schema.json).
+Each record: `name`, `year`, optional `full_name`, `location`, `start_date`, `end_date`, `link`, `deadlines: [{name, date}]`, `note`, `attending`, `slug`. The API derives a stable series `slug` and instance `id` (`slug-year`) unless `slug` is set. See [`schema.json`](schema.json).
 
 ## API
 
@@ -33,37 +33,64 @@ Base URL: `https://conferences.databio.org`
 
 ```bash
 npm install
-npm run test        # unit tests (vitest)
-npm run typecheck   # tsc --noEmit
-npm run validate    # lint data/conferences.json
-npm run dev         # wrangler dev (local)
+npm run test             # unit tests (vitest)
+npm run typecheck        # tsc --noEmit
+npm run validate         # lint data/conferences.json
+npm run validate:update  # rules for a change, compared with main
+npm run state:todo       # research work queue (see below)
+npm run dev              # wrangler dev (local)
 ```
 
 ## Automated curation
 
-The recurring conference-research procedure lives in
-[`automation/update-conferences.md`](automation/update-conferences.md). It
-researches the current and next calendar year from official conference sources,
-updates only verified fields in `data/conferences.json`, and leaves uncertain
-information untouched.
+A scheduled AI agent refreshes the data every week. Everything it follows lives
+in this repository:
 
-A ChatGPT Scheduled Task performs the normal weekly refresh using the connected
-GitHub repository. `AGENTS.md` contains the ChatGPT-specific GitHub/PR behavior.
-The Claude Code workflow at
-`.github/workflows/scheduled-conference-update.yml` is a manual
-`workflow_dispatch` fallback that follows the same canonical instructions.
+- [`AGENTS.md`](AGENTS.md): the entry point for any agent.
+- [`automation/update-conferences.md`](automation/update-conferences.md): the
+  full procedure. Official sources only, never guess a date, change only
+  verified fields.
+- [`scripts/recurring_conferences.seed.yaml`](scripts/recurring_conferences.seed.yaml):
+  the conference series tracked each year.
 
-Both paths use `conference-update` as a durable staging branch. If that remote
-branch already exists, the agent starts from it and treats its
-`data/conferences.json` as current state, preserving pending unmerged changes.
-If an open PR already uses that branch, new verified changes are added to the
-same PR. If the branch exists without an open PR, the agent continues from it
-and opens a review PR when the branch contains pending data changes. Only when
-`conference-update` does not exist does a run start from current `main`.
+Research happens in phases, and progress is saved between runs in
+`automation/research-state/YYYY.json`, one file per year. The CLI
+[`scripts/conference-state.mjs`](scripts/conference-state.mjs) manages these
+files and always covers the current and next calendar year.
 
-Pull-request CI verifies that `data/conferences.json` is already in canonical
-normalized form, validates the data, typechecks the project, and runs the test
-suite before changes are merged.
+| Phase | What the agent does |
+|---|---|
+| 1. Initialization | Find the year's official page, location, and dates. |
+| 2. Deadline discovery | Find the official pages that list deadlines. |
+| 3. Deadline monitoring | Recheck saved deadline pages weekly, with a full rediscovery every 28 days. |
+| 4. Complete | Nothing. Set automatically once the conference ends, or earlier only with an official source showing it will not be held. |
+
+Each run starts from `node scripts/conference-state.mjs todo`, which lists only
+the items that are due, along with what earlier runs already found, so work is
+not repeated.
+
+Every run ends in a pull request for human review; nothing merges on its own.
+Merge or close each run's pull request before the next run, because every run
+updates the research-state files. The manual Claude Code workflow in
+`.github/workflows/scheduled-conference-update.yml` runs the same procedure as
+a fallback, on the `conference-update` branch.
+
+## Checks
+
+CI runs on every pull request and push to `main`:
+
+- `data/conferences.json` must already be in canonical form (`scripts/normalize.mjs`).
+- `npm run validate`: required fields, `YYYY-MM-DD` dates, no unknown keys, and
+  no rows that look copied from another year (a link that names a different
+  year, or a repeated edition number such as "14th").
+- `npm run validate:update`: compared with `main`, no end date before a start
+  date and no newly added deadline that has already passed. It also warns when
+  a changed row has the same location and dates as another year.
+- `npm run state:validate`: research-state files are well formed, and nothing is
+  archived early without an official source.
+- `npm run typecheck` and `npm test`.
+- Pull requests from `conference-update*` branches may change only
+  `data/conferences.json` and `automation/research-state/`.
 
 ## Contributing
 
