@@ -1,0 +1,38 @@
+name: conference-update scope
+
+on:
+  pull_request_target:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  scope:
+    if: startsWith(github.event.pull_request.head.ref, 'conference-update')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v8
+        with:
+          script: |
+            const files = await github.paginate(github.rest.pulls.listFiles, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number,
+              per_page: 100,
+            })
+
+            const allowed = (path) =>
+              path === 'data/conferences.json' ||
+              /^automation\/research-state\/\d{4}\.json$/.test(path)
+
+            const bad = files.map(f => f.filename).filter(path => !allowed(path))
+            if (bad.length) {
+              core.setFailed(
+                'Conference refresh PRs may only change data/conferences.json and automation/research-state/YYYY.json. ' +
+                'Unexpected files: ' + bad.join(', ')
+              )
+            } else {
+              core.info('Conference update scope is valid.')
+            }

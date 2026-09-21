@@ -1,0 +1,192 @@
+name: Manual conference update with Claude
+
+# Manual Claude fallback for the conference updater.
+# The normal recurring schedule is handled by a ChatGPT Scheduled Task.
+#
+# Both agents use the durable conference-update branch. An open review PR means
+# that branch contains pending work. Without an open PR, identical data at the
+# branch tip means the branch is stale and should be reset to current main.
+#
+# All research and editing rules live in automation/update-conferences.md.
+# The prompt below adds only what this workflow needs from Claude: where to
+# write the review summary, and to leave committing and the PR to the workflow.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+  id-token: write
+  actions: read
+
+concurrency:
+  group: conference-update
+  cancel-in-progress: false
+
+jobs:
+  update-conferences:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Establish shared conference-update branch
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git fetch origin main
+
+          PR_NUMBER=$(gh pr list \
+            --state open \
+            --head conference-update \
+            --base main \
+            --json number \
+            --jq '.[0].number // empty')
+
+          if git ls-remote --exit-code --heads origin conference-update >/dev/null 2>&1; then
+            git fetch origin conference-update
+            git checkout -B conference-update origin/conference-update
+
+            # Bring the branch up to date so this run uses main's current CLI,
+            # validators, and instructions, and so the comparison below sees
+            # only changes that are truly pending. A conflict needs a human.
+            if ! git merge --no-edit origin/main; then
+              echo "::error::conference-update conflicts with main; resolve it by hand"
+              exit 1
+            fi
+
+            if [ -n "$PR_NUMBER" ]; then
+              echo "Continuing conference-update for open PR #$PR_NUMBER"
+            elif git diff --quiet origin/main HEAD -- data/conferences.json automation/research-state/; then
+              # Nothing pending once main is merged in. This commonly happens
+              # after a squash merge. Reset instead of replaying it.
+              git checkout -B conference-update origin/main
+              git push --force-with-lease origin conference-update
+              echo "Reset stale conference-update branch to current main"
+            else
+              echo "Preserving genuine pending conference data; no open PR exists yet"
+            fi
+          else
+            git checkout -B conference-update origin/main
+            echo "Starting new conference-update branch from current main"
+          fi
+
+          echo "START_SHA=$(git rev-parse HEAD)" >> "$GITHUB_ENV"
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+
+      - name: Run Claude Code to update the data file
+        uses: anthropics/claude-code-action@v1
+        with:
+          prompt: |
+            Run the recurring conference refresh. Follow
+            automation/update-conferences.md completely.
+
+            The workflow has already established the correct shared
+            conference-update branch. Treat the current working copy of
+            data/conferences.json as authoritative current state and preserve
+            any genuine pending changes already present.
+
+            Run the research-state CLI first and work only on the items it
+            returns. Follow the phase-specific research procedure in the
+            canonical instructions. Use the CLI to persist phase transitions,
+            discovered deadline_pages, and check dates.
+
+            During this refresh, modify only data/conferences.json and
+            automation/research-state/YYYY.json. Run the repository tools and
+            validators as-is; never edit or disable them.
+
+            Do all research synchronously in this run.
+
+            Write the review summary to /tmp/conference-pr-body.md using the
+            canonical review-summary sections.
+
+            Do not commit, push, or create or merge a pull request. After you
+            finish, this workflow normalizes, validates, commits to the shared
+            branch, and opens or updates the review PR.
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          claude_args: '--allowedTools "Bash(*),Read(*),Write(*),Edit(*),Glob(*),Grep(*),WebSearch,WebFetch"'
+          show_full_output: true
+
+      - name: Normalize + validate
+        run: |
+          node scripts/conference-state.mjs sync
+          node scripts/conference-state.mjs validate
+          node scripts/normalize.mjs data/conferences.json
+          node scripts/validate.mjs
+          node scripts/validate-update.mjs origin/main
+          git diff --check
+
+      - name: Assemble PR body
+        run: |
+          BODY=/tmp/conference-pr-body.md
+          if [ ! -f "$BODY" ]; then
+            echo "Manual AI refresh of conference dates and deadlines." > "$BODY"
+          fi
+          {
+            echo ""
+            echo "---"
+            echo "_Merging redeploys conferences.databio.org with the updated data._"
+          } >> "$BODY"
+
+      - name: Commit shared-branch changes
+        run: |
+          # If Claude committed on its own, fold those commits back into the
+          # working tree so they are not lost and only allowed paths are committed.
+          git reset -q "$START_SHA"
+
+          # status (not diff) so a newly created research-state year file counts.
+          if [ -z "$(git status --porcelain -- data/conferences.json automation/research-state/)" ]; then
+            echo "No new conference or research-state changes to commit"
+            exit 0
+          fi
+
+          git add data/conferences.json automation/research-state/
+          git commit -m "Conference update"
+          git push origin HEAD:conference-update
+
+      - name: Ensure review PR exists
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git fetch origin main
+
+          if ! git ls-remote --exit-code --heads origin conference-update >/dev/null 2>&1; then
+            echo "No conference-update branch exists; nothing to review"
+            exit 0
+          fi
+
+          git fetch origin conference-update
+
+          # Compare current branch tips directly. Do not use triple-dot here:
+          # after squash merges it can make already-merged data look pending.
+          if git diff --quiet origin/main origin/conference-update -- data/conferences.json automation/research-state/; then
+            echo "conference-update has no pending conference or research-state changes relative to main"
+            exit 0
+          fi
+
+          PR_NUMBER=$(gh pr list \
+            --state open \
+            --head conference-update \
+            --base main \
+            --json number \
+            --jq '.[0].number // empty')
+
+          if [ -n "$PR_NUMBER" ]; then
+            gh pr edit "$PR_NUMBER" --body-file /tmp/conference-pr-body.md
+            echo "Updated existing PR #$PR_NUMBER"
+          else
+            gh pr create \
+              --base main \
+              --head conference-update \
+              --title "Conference update" \
+              --body-file /tmp/conference-pr-body.md \
+              --label conference-update \
+              --label needs-review
+          fi

@@ -1,0 +1,148 @@
+# Recurring Conferences to Track
+# This file defines conferences to search for each year
+# Add new conferences here; they'll be included in annual updates
+
+conferences:
+  # Major computational biology conferences
+  - name: "ISMB"
+    full_name: "Intelligent Systems for Molecular Biology"
+    search_terms: ["ISMB", "ISCB ISMB", "ISMB/ECCB"]
+    typical_month: "July"
+    website_pattern: "iscb.org/ismb"
+    notes: "Joint with ECCB in odd years (European locations)"
+
+  - name: "RECOMB"
+    full_name: "Research in Computational Molecular Biology"
+    search_terms: ["RECOMB conference", "RECOMB computational biology"]
+    typical_month: "April-May"
+    website_pattern: "recomb.org"
+    notes: "Different host institution each year"
+
+  - name: "ASHG"
+    full_name: "American Society of Human Genetics Annual Meeting"
+    search_terms: ["ASHG annual meeting", "ASHG conference"]
+    typical_month: "October-November"
+    website_pattern: "ashg.org"
+
+  # Cold Spring Harbor meetings
+  - name: "CSH Biology of Genomes"
+    full_name: "Cold Spring Harbor Biology of Genomes"
+    search_terms: ["CSHL Biology of Genomes", "Cold Spring Harbor Genomes"]
+    typical_month: "May"
+    website_pattern: "meetings.cshl.edu"
+    cshl_code: "GENOME"
+
+  - name: "CSH Genome Informatics"
+    full_name: "Cold Spring Harbor Genome Informatics"
+    search_terms: ["CSHL Genome Informatics", "Cold Spring Harbor Informatics"]
+    typical_month: "November"
+    website_pattern: "meetings.cshl.edu"
+    cshl_code: "INFO"
+
+  - name: "CSH Biological Data Science"
+    full_name: "Cold Spring Harbor Biological Data Science"
+    search_terms: ["CSHL Biological Data Science", "Cold Spring Harbor Data Science"]
+    typical_month: "November"
+    website_pattern: "meetings.cshl.edu"
+    cshl_code: "DATA"
+    notes: "Alternates with Genome Informatics (even years)"
+
+  - name: "CSH Epigenetics and Chromatin"
+    full_name: "Cold Spring Harbor Epigenetics and Chromatin"
+    search_terms: ["CSHL Epigenetics Chromatin", "Cold Spring Harbor Epigenetics"]
+    typical_month: "September"
+    website_pattern: "meetings.cshl.edu"
+    cshl_code: "EPICH"
+
+  - name: "CSH Single Cell Analyses"
+    full_name: "Cold Spring Harbor Single Cell Analyses"
+    search_terms: ["CSHL Single Cell", "Cold Spring Harbor Single Cell"]
+    typical_month: "November"
+    website_pattern: "meetings.cshl.edu"
+    cshl_code: "SINGLE"
+
+  # Gordon Research Conferences
+  - name: "GRC Epigenetics"
+    full_name: "Gordon Research Conference on Epigenetics"
+    search_terms: ["GRC Epigenetics", "Gordon Epigenetics conference"]
+    typical_month: "August"
+    website_pattern: "grc.org/epigenetics"
+    notes: "Alternates US/Europe locations"
+
+  # Community conferences
+  - name: "Bioconductor"
+    full_name: "Bioconductor Conference"
+    search_terms: ["BioC conference", "Bioconductor annual conference"]
+    typical_month: "July-August"
+    website_pattern: "bioconductor.org"
+    notes: "May be joint with Galaxy some years"
+
+  - name: "Galaxy Community Conference"
+    full_name: "Galaxy Community Conference"
+    search_terms: ["GCC Galaxy", "Galaxy Community Conference"]
+    typical_month: "June-July"
+    website_pattern: "galaxyproject.org"
+
+  # Other notable conferences
+  - name: "Pacific Symposium on Biocomputing"
+    full_name: "Pacific Symposium on Biocomputing"
+    search_terms: ["PSB biocomputing", "Pacific Symposium Biocomputing Hawaii"]
+    typical_month: "January"
+    website_pattern: "psb.stanford.edu"
+    notes: "Always in Hawaii"
+
+  - name: "ACM BCB"
+    full_name: "ACM Conference on Bioinformatics, Computational Biology, and Health Informatics"
+    search_terms: ["ACM BCB", "ACM Bioinformatics"]
+    typical_month: "August-September"
+    website_pattern: "acm-bcb.org"
+
+  - name: "BMES"
+    full_name: "Biomedical Engineering Society Annual Meeting"
+    search_terms: ["BMES annual meeting", "BMES conference"]
+    typical_month: "October"
+    website_pattern: "bmes.org"
+
+  - name: "useR"
+    full_name: "useR! Conference"
+    search_terms: ["useR conference", "useR! R programming"]
+    typical_month: "June-July"
+    website_pattern: "user"
+    notes: "R programming community conference"
+
+  # Computer science / machine learning venues
+  - name: "MLCB"
+    full_name: "Machine Learning in Computational Biology"
+    search_terms: ["MLCB", "Machine Learning in Computational Biology"]
+    typical_month: "November"
+    website_pattern: "mlcb.org"
+    notes: "Grew out of NeurIPS workshop; recent editions at NY Genome Center (NYC); proceedings optional/non-archival"
+
+  - name: "WABI"
+    full_name: "Workshop on Algorithms in Bioinformatics"
+    search_terms: ["WABI", "Workshop on Algorithms in Bioinformatics"]
+    typical_month: "September"
+    website_pattern: "wabi-conference.org"
+    notes: "Alternates US/Europe; US years often co-locate with ACM BCB; LIPIcs proceedings + Algorithms for Molecular Biology"
+
+  - name: "NeurIPS"
+    full_name: "Conference on Neural Information Processing Systems"
+    search_terms: ["NeurIPS", "Neural Information Processing Systems"]
+    typical_month: "December"
+    website_pattern: "neurips.cc"
+    notes: "Flagship ML conference; rotates globally; genomics workshops (LMRL, MLGenX)"
+
+  # GA4GH meetings
+  - name: "GA4GH Connect"
+    full_name: "Global Alliance for Genomics and Health Connect"
+    search_terms: ["GA4GH Connect", "GA4GH Connect meeting"]
+    typical_month: "April"
+    website_pattern: "ga4gh.org"
+    notes: "Technical working meeting, ~2x per year"
+
+  - name: "GA4GH Plenary"
+    full_name: "Global Alliance for Genomics and Health Plenary"
+    search_terms: ["GA4GH Plenary", "GA4GH annual plenary"]
+    typical_month: "September-October"
+    website_pattern: "ga4gh.org"
+    notes: "Annual plenary meeting"

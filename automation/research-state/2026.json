@@ -1,0 +1,135 @@
+{
+  "year": 2026,
+  "conferences": {
+    "ACM BCB": {
+      "phase": 4,
+      "deadline_pages": [],
+      "last_checked": null,
+      "last_full_search": null
+    },
+    "ASHG": {
+      "phase": 3,
+      "deadline_pages": [
+        "https://ashgmeeting.ashg.org/programs/abstract-submissions/"
+      ],
+      "last_checked": "2026-09-21",
+      "last_full_search": "2026-09-21"
+    },
+    "BMES": {
+      "phase": 3,
+      "deadline_pages": [
+        "https://www.bmes.org/2026/annualmeeting/abstracts"
+      ],
+      "last_checked": "2026-09-21",
+      "last_full_search": "2026-09-21"
+    },
+    "Bioconductor": {
+      "phase": 4,
+      "deadline_pages": [],
+      "last_checked": null,
+      "last_full_search": null
+    },
+    "CSH Biological Data Science": {
+      "phase": 2,
+      "deadline_pages": [],
+      "last_checked": "2026-09-21",
+      "last_full_search": "2026-09-21"
+    },
+    "CSH Biology of Genomes": {
+      "phase": 4,
+      "deadline_pages": [],
+      "last_checked": null,
+      "last_full_search": null
+    },
+    "CSH Epigenetics and Chromatin": {
+      "phase": 4,
+      "deadline_pages": [],
+      "last_checked": null,
+      "last_full_search": null
+    },
+    "CSH Genome Informatics": {
+      "phase": 4,
+      "deadline_pages": [],
+      "last_checked": null,
+      "last_full_search": null,
+      "note": "not held in 2026: absent from CSHL's 2026 meeting schedule (meets in odd years)",
+      "evidence": "https://meetings.cshl.edu/meetingshome.aspx"
+    },
+    "CSH Single Cell Analyses": {
+      "phase": 4,
+      "deadline_pages": [],
+      "last_checked": null,
+      "last_full_search": null,
+      "note": "not held in 2026: absent from CSHL's 2026 meeting schedule (meets in odd years)",
+      "evidence": "https://meetings.cshl.edu/meetingshome.aspx"
+    },
+    "GA4GH Connect": {
+      "phase": 4,
+      "deadline_pages": [],
+      "last_checked": null,
+      "last_full_search": null
+    },
+    "GA4GH Plenary": {
+      "phase": 2,
+      "deadline_pages": [],
+      "last_checked": "2026-09-21",
+      "last_full_search": "2026-09-21"
+    },
+    "GRC Epigenetics": {
+      "phase": 4,
+      "deadline_pages": [],
+      "last_checked": null,
+      "last_full_search": null,
+      "note": "not held in 2026: meets in odd years (2023, 2025, 2027)",
+      "evidence": "https://www.grc.org/epigenetics-conference/"
+    },
+    "Galaxy Community Conference": {
+      "phase": 4,
+      "deadline_pages": [],
+      "last_checked": null,
+      "last_full_search": null
+    },
+    "ISMB": {
+      "phase": 4,
+      "deadline_pages": [],
+      "last_checked": null,
+      "last_full_search": null
+    },
+    "MLCB": {
+      "phase": 2,
+      "deadline_pages": [],
+      "last_checked": "2026-09-21",
+      "last_full_search": "2026-09-21"
+    },
+    "NeurIPS": {
+      "phase": 2,
+      "deadline_pages": [],
+      "last_checked": "2026-09-21",
+      "last_full_search": "2026-09-21"
+    },
+    "Pacific Symposium on Biocomputing": {
+      "phase": 4,
+      "deadline_pages": [],
+      "last_checked": null,
+      "last_full_search": null
+    },
+    "RECOMB": {
+      "phase": 4,
+      "deadline_pages": [],
+      "last_checked": null,
+      "last_full_search": null
+    },
+    "WABI": {
+      "phase": 4,
+      "deadline_pages": [],
+      "last_checked": null,
+      "last_full_search": null
+    },
+    "useR": {
+      "phase": 4,
+      "deadline_pages": [],
+      "last_checked": null,
+      "last_full_search": null
+    }
+  }
+}

@@ -1,0 +1,146 @@
+{
+  "year": 2027,
+  "conferences": {
+    "ACM BCB": {
+      "phase": 1,
+      "deadline_pages": [],
+      "last_checked": "2026-09-21",
+      "last_full_search": null,
+      "note": "2027 details not published yet"
+    },
+    "ASHG": {
+      "phase": 2,
+      "deadline_pages": [],
+      "last_checked": "2026-09-21",
+      "last_full_search": "2026-09-21"
+    },
+    "BMES": {
+      "phase": 2,
+      "deadline_pages": [],
+      "last_checked": "2026-09-21",
+      "last_full_search": "2026-09-21"
+    },
+    "Bioconductor": {
+      "phase": 1,
+      "deadline_pages": [],
+      "last_checked": "2026-09-21",
+      "last_full_search": null,
+      "note": "2027 details not published yet"
+    },
+    "CSH Biological Data Science": {
+      "phase": 1,
+      "deadline_pages": [],
+      "last_checked": "2026-09-21",
+      "last_full_search": null,
+      "note": "likely not held in 2027 (even-year meeting); archive with evidence once CSHL posts its 2027 schedule"
+    },
+    "CSH Biology of Genomes": {
+      "phase": 3,
+      "deadline_pages": [
+        "https://meetings.cshl.edu/meetings.aspx?meet=GENOME"
+      ],
+      "last_checked": "2026-09-21",
+      "last_full_search": "2026-09-21"
+    },
+    "CSH Epigenetics and Chromatin": {
+      "phase": 1,
+      "deadline_pages": [],
+      "last_checked": "2026-09-21",
+      "last_full_search": null,
+      "note": "likely not held in 2027 (even-year meeting); archive with evidence once CSHL posts its 2027 schedule"
+    },
+    "CSH Genome Informatics": {
+      "phase": 1,
+      "deadline_pages": [],
+      "last_checked": "2026-09-21",
+      "last_full_search": null,
+      "note": "2027 details not published yet"
+    },
+    "CSH Single Cell Analyses": {
+      "phase": 1,
+      "deadline_pages": [],
+      "last_checked": "2026-09-21",
+      "last_full_search": null,
+      "note": "2027 details not published yet"
+    },
+    "GA4GH Connect": {
+      "phase": 2,
+      "deadline_pages": [],
+      "last_checked": "2026-09-21",
+      "last_full_search": "2026-09-21"
+    },
+    "GA4GH Plenary": {
+      "phase": 1,
+      "deadline_pages": [],
+      "last_checked": "2026-09-21",
+      "last_full_search": "2026-09-21"
+    },
+    "GRC Epigenetics": {
+      "phase": 3,
+      "deadline_pages": [
+        "https://www.grc.org/epigenetics-conference/2027/"
+      ],
+      "last_checked": "2026-09-21",
+      "last_full_search": "2026-09-21"
+    },
+    "Galaxy Community Conference": {
+      "phase": 1,
+      "deadline_pages": [],
+      "last_checked": "2026-09-21",
+      "last_full_search": "2026-09-21",
+      "note": "2027 details not published yet"
+    },
+    "ISMB": {
+      "phase": 3,
+      "deadline_pages": [
+        "https://www.iscb.org/ismbeccb2027/key-dates"
+      ],
+      "last_checked": "2026-09-21",
+      "last_full_search": "2026-09-21"
+    },
+    "MLCB": {
+      "phase": 1,
+      "deadline_pages": [],
+      "last_checked": "2026-09-21",
+      "last_full_search": null,
+      "note": "2027 details not published yet"
+    },
+    "NeurIPS": {
+      "phase": 1,
+      "deadline_pages": [],
+      "last_checked": "2026-09-21",
+      "last_full_search": null,
+      "note": "2027 details not published yet"
+    },
+    "Pacific Symposium on Biocomputing": {
+      "phase": 3,
+      "deadline_pages": [
+        "https://psb.stanford.edu/keydates"
+      ],
+      "last_checked": "2026-09-21",
+      "last_full_search": "2026-09-21"
+    },
+    "RECOMB": {
+      "phase": 3,
+      "deadline_pages": [
+        "https://recomb.org/recomb2027/keydates_and_deadlines"
+      ],
+      "last_checked": "2026-09-21",
+      "last_full_search": "2026-09-21"
+    },
+    "WABI": {
+      "phase": 1,
+      "deadline_pages": [],
+      "last_checked": "2026-09-21",
+      "last_full_search": null,
+      "note": "2027 details not published yet"
+    },
+    "useR": {
+      "phase": 1,
+      "deadline_pages": [],
+      "last_checked": "2026-09-21",
+      "last_full_search": null,
+      "note": "2027 details not published yet"
+    }
+  }
+}

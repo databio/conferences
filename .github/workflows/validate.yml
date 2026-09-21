@@ -1,0 +1,34 @@
+name: validate
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Check canonical conference JSON
+        run: |
+          node scripts/normalize.mjs data/conferences.json
+          git diff --exit-code -- data/conferences.json
+      - name: Check research state
+        run: |
+          node scripts/conference-state.mjs validate
+          node scripts/conference-state.mjs todo --json > /dev/null
+      - run: npm run validate
+      - name: Check update semantics
+        run: |
+          git fetch origin main
+          node scripts/validate-update.mjs origin/main
+      - run: npm run typecheck
+      - run: npm test

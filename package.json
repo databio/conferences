@@ -1,0 +1,24 @@
+{
+  "name": "conferences",
+  "version": "0.1.0",
+  "private": true,
+  "description": "AI-curated computational-biology conference + deadline API (conferences.databio.org)",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "validate": "node scripts/validate.mjs",
+    "validate:update": "node scripts/validate-update.mjs",
+    "state:todo": "node scripts/conference-state.mjs todo",
+    "state:sync": "node scripts/conference-state.mjs sync",
+    "state:validate": "node scripts/conference-state.mjs validate"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20260730.1",
+    "typescript": "^5.5.0",
+    "vitest": "^2.1.0",
+    "wrangler": "^4.20.0"
+  }
+}
