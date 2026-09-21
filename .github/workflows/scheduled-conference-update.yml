@@ -187,6 +187,5 @@ jobs:
               --head conference-update \
               --title "Conference update" \
               --body-file /tmp/conference-pr-body.md \
-              --label conference-update \
-              --label needs-review
+              --label conference-update
           fi
