@@ -135,14 +135,14 @@ conferences:
   # GA4GH meetings
   - name: "GA4GH Connect"
     full_name: "Global Alliance for Genomics and Health Connect"
-    search_terms: ["GA4GH Connect", "GA4GH Connect meeting"]
+    search_terms: ["GA4GH Connect", "GA4GH April Connect", "GA4GH Connect meeting"]
     typical_month: "April"
     website_pattern: "ga4gh.org"
-    notes: "Technical working meeting, ~2x per year"
+    notes: "Technical working meeting. Distinct from the annual GA4GH Plenary; do not use Plenary pages as evidence for Connect."
 
   - name: "GA4GH Plenary"
     full_name: "Global Alliance for Genomics and Health Plenary"
     search_terms: ["GA4GH Plenary", "GA4GH annual plenary"]
     typical_month: "September-October"
     website_pattern: "ga4gh.org"
-    notes: "Annual plenary meeting"
+    notes: "Annual plenary. Distinct from GA4GH Connect/April Connect; do not use Connect pages as evidence for Plenary."
