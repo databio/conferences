@@ -1,0 +1,168 @@
+{
+  "$defs": {
+    "ItemDate": {
+      "additionalProperties": false,
+      "description": "One dated milestone of an :class:`Item`.",
+      "properties": {
+        "date": {
+          "format": "date",
+          "title": "Date",
+          "type": "string"
+        },
+        "kind": {
+          "minLength": 1,
+          "title": "Kind",
+          "type": "string"
+        },
+        "label": {
+          "minLength": 1,
+          "title": "Label",
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "label",
+        "date"
+      ],
+      "title": "ItemDate",
+      "type": "object"
+    }
+  },
+  "$id": "https://deadliner.databio.org/contract/v2/item.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "One item and its dated milestones (deadliner provider contract v2). NEW deadliner is authoritative: pydantic (deadliner.wire.Item) is the validator; this schema is for editor tooling and non-Python providers.",
+  "properties": {
+    "dates": {
+      "items": {
+        "$ref": "#/$defs/ItemDate"
+      },
+      "minItems": 1,
+      "title": "Dates",
+      "type": "array"
+    },
+    "notes": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Notes"
+    },
+    "owner": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Owner"
+    },
+    "ref_slug": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Ref Slug"
+    },
+    "source": {
+      "title": "Source",
+      "type": "string"
+    },
+    "source_ref": {
+      "title": "Source Ref",
+      "type": "string"
+    },
+    "status": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Status"
+    },
+    "status_options": {
+      "anyOf": [
+        {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Status Options"
+    },
+    "subscribed": {
+      "anyOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Subscribed"
+    },
+    "title": {
+      "title": "Title",
+      "type": "string"
+    },
+    "type": {
+      "enum": [
+        "grant",
+        "nofo",
+        "paper",
+        "project",
+        "event",
+        "conference",
+        "task",
+        "other"
+      ],
+      "title": "Type",
+      "type": "string"
+    },
+    "url": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Url"
+    }
+  },
+  "required": [
+    "source",
+    "source_ref",
+    "title",
+    "type",
+    "dates"
+  ],
+  "title": "Item",
+  "type": "object"
+}

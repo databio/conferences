@@ -58,7 +58,7 @@ export function slugifySeries(name: string): string {
     .replace(/^-+|-+$/g, '')
 }
 
-function slugifyKind(kind: string): string {
+export function slugifyKind(kind: string): string {
   return kind.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || 'deadline'
 }
 
@@ -78,20 +78,46 @@ for (const c of conferences) {
 }
 for (const list of bySlug.values()) list.sort((a, b) => b.year - a.year)
 
-// Flat, date-sorted deadline rows: each explicit milestone plus a synthetic
+/** A conference's dated milestones: each curated deadline, then the event start.
+ *  kind = slug of the curated name ('conference' for the start); first wins on
+ *  a duplicate kind. */
+export interface Milestone {
+  kind: string
+  label: string
+  date: string
+}
+
+export function milestones(c: Conference): Milestone[] {
+  const out: Milestone[] = []
+  const seen = new Set<string>()
+  const push = (label: string, date: string | undefined) => {
+    if (!date) return
+    const kind = slugifyKind(label)
+    if (seen.has(kind)) return
+    seen.add(kind)
+    out.push({ kind, label, date })
+  }
+  for (const m of c.deadlines ?? []) push(m.name, m.date)
+  push('Conference', c.start_date)
+  return out
+}
+
+/** "ISMB 2027"; names that already contain the year are left alone ("BioC 2021: ..."). */
+export function displayTitle(c: Conference): string {
+  return c.name.includes(String(c.year)) ? c.name : `${c.name} ${c.year}`
+}
+
+// Flat, date-sorted deadline rows: each milestone, including the synthetic
 // "Conference" row for the event start date.
 const deadlineRows: DeadlineRow[] = []
 for (const c of conferences) {
-  const milestones: ConferenceDeadline[] = [...(c.deadlines ?? [])]
-  if (c.start_date) milestones.push({ name: 'Conference', date: c.start_date })
-  for (const m of milestones) {
-    if (!m.date) continue
+  for (const m of milestones(c)) {
     deadlineRows.push({
-      id: `${c.id}:${slugifyKind(m.name)}`,
+      id: `${c.id}:${m.kind}`,
       slug: c.slug,
       year: c.year,
       conference: c.name,
-      kind: m.name,
+      kind: m.label,
       date: m.date,
       location: c.location,
       link: c.link,

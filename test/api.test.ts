@@ -1,6 +1,12 @@
 import { describe, it, expect } from 'vitest'
 import worker from '../src/index'
-import { slugifySeries, allConferences, allDeadlines } from '../src/data'
+import schema from './fixtures/item.schema.json'
+import Ajv from 'ajv/dist/2020'
+import addFormats from 'ajv-formats'
+import { slugifySeries, allConferences, allDeadlines, displayTitle, milestones, type Conference } from '../src/data'
+import type { ConferenceItem } from '../src/provider'
+
+const validate = addFormats(new Ajv({ allErrors: true })).compile(schema)
 
 const env = { GITHUB_REPO: 'databio/conferences' }
 const get = (path: string) => worker.fetch(new Request(`https://conferences.databio.org${path}`), env as never)
@@ -115,24 +121,72 @@ describe('read endpoints', () => {
   })
 })
 
-describe('aggregator provider contract (/api/v1/deadlines)', () => {
+describe('deadliner provider contract v2 (/api/v1/deadlines)', () => {
+  const pool = async (qs = '') =>
+    (await (await get(`/api/v1/deadlines?scope=pool${qs}`)).json()) as ConferenceItem[]
+
   it('capabilities is read-only', async () => {
     const r = await get('/api/v1/deadlines/capabilities')
     expect(await r.json()).toEqual({ name: 'conferences', capabilities: ['read', 'pool'] })
   })
-  it('deadlines emit exactly the canonical Deadline fields', async () => {
-    const rows = (await (await get('/api/v1/deadlines?scope=pool')).json()) as Record<string, unknown>[]
-    expect(rows.length).toBeGreaterThan(0)
-    const keys = Object.keys(rows[0]).sort()
-    expect(keys).toEqual(
-      ['date', 'id', 'kind', 'notes', 'owner', 'ref_slug', 'source', 'source_ref', 'status', 'subscribed', 'title', 'type', 'url'].sort(),
-    )
-    expect(rows[0].source).toBe('conferences')
-    expect(rows[0].type).toBe('conference')
+  it('pool items validate against the vendored item schema', async () => {
+    const items = await pool()
+    expect(items.length).toBeGreaterThan(0)
+    for (const it of items) {
+      if (!validate(it)) expect.fail(JSON.stringify(validate.errors, null, 2))
+      expect(it.source).toBe('conferences')
+      expect(it.type).toBe('conference')
+      expect(it.source_ref).toMatch(/^[a-z0-9-]+-\d{4}$/)
+    }
+    const refs = items.map((i) => i.source_ref)
+    expect(new Set(refs).size).toBe(refs.length)
+    const byRef = new Map(allConferences().map((c) => [c.id, c]))
+    for (const it of items) {
+      if (byRef.get(it.source_ref)?.start_date) {
+        expect(it.dates.some((d) => d.kind === 'conference' && d.label === 'Conference')).toBe(true)
+      }
+    }
   })
-  it('scope=mine is empty (no per-user state here)', async () => {
-    const rows = (await (await get('/api/v1/deadlines?scope=mine')).json()) as unknown[]
-    expect(rows).toEqual([])
+  const rich = () =>
+    allConferences().find((c) => (c.deadlines ?? []).filter((d) => d.date).length >= 2 && c.start_date)!
+  it('groups all milestones of an instance into one item', async () => {
+    const c = rich()
+    const item = (await pool()).find((i) => i.source_ref === c.id)!
+    const named = (c.deadlines ?? []).filter((d) => d.date)
+    expect(item.dates.length).toBe(named.length + 1)
+    expect(item.dates.map((d) => d.date)).toEqual([...item.dates.map((d) => d.date)].sort())
+    for (const d of named) expect(item.dates.map((x) => x.label)).toContain(d.name)
+  })
+  it('window returns the item with all its dates', async () => {
+    const c = rich()
+    const target = c.deadlines!.find((d) => d.date)!.date
+    const items = await pool(`&from=${target}&to=${target}`)
+    const item = items.find((i) => i.source_ref === c.id)!
+    expect(item).toBeTruthy()
+    expect(item.dates.length).toBeGreaterThan(1)
+  })
+  it('title keeps names containing the year, appends otherwise', async () => {
+    const items = await pool()
+    for (const c of allConferences()) {
+      const item = items.find((i) => i.source_ref === c.id)
+      if (!item) continue
+      expect(item.title).toBe(c.name.includes(String(c.year)) ? c.name : `${c.name} ${c.year}`)
+    }
+    expect(displayTitle({ name: 'BioC 2021: X', year: 2021 } as Conference)).toBe('BioC 2021: X')
+    expect(displayTitle({ name: 'ISMB', year: 2027 } as Conference)).toBe('ISMB 2027')
+  })
+  it('scope=mine is empty; bad scope and dates are 400', async () => {
+    expect(await (await get('/api/v1/deadlines?scope=mine')).json()).toEqual([])
+    expect((await get('/api/v1/deadlines?scope=bogus')).status).toBe(400)
+    expect((await get('/api/v1/deadlines?from=nope')).status).toBe(400)
+  })
+  it('milestones(): first of a duplicate kind wins', () => {
+    const c = { name: 'X', year: 2027, slug: 'x', id: 'x-2027', start_date: '2027-09-01',
+      deadlines: [{ name: 'Abstract', date: '2027-01-01' }, { name: 'abstract!', date: '2027-02-01' }] } as Conference
+    expect(milestones(c)).toEqual([
+      { kind: 'abstract', label: 'Abstract', date: '2027-01-01' },
+      { kind: 'conference', label: 'Conference', date: '2027-09-01' },
+    ])
   })
 })
 

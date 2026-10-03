@@ -42,6 +42,16 @@ raw.conferences.forEach((c, i) => {
       if (typeof d?.name !== 'string') errors.push(`${at}: deadlines[${j}] missing name`)
       if (!DATE.test(d?.date)) errors.push(`${at}: deadlines[${j}] date must be YYYY-MM-DD`)
     })
+    // Milestone kinds must stay distinct (same slugging as src/data.ts slugifyKind).
+    if (Array.isArray(c.deadlines)) {
+    const kinds = new Set(c.start_date ? ['conference'] : [])
+    c.deadlines.forEach((d, j) => {
+      if (typeof d?.name !== 'string' || !d?.date) return
+      const k = d.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || 'deadline'
+      if (kinds.has(k)) errors.push(`${at}: deadlines[${j}] name "${d.name}" duplicates another milestone's kind "${k}"`)
+      kinds.add(k)
+    })
+    }
   }
 })
 
