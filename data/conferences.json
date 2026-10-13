@@ -951,6 +951,21 @@
       ]
     },
     {
+      "name": "CSH Single Cell Analyses",
+      "full_name": "Single Cell Analyses",
+      "year": 2027,
+      "location": "Cold Spring Harbor, NY",
+      "start_date": "2027-11-10",
+      "end_date": "2027-11-13",
+      "link": "https://meetings.cshl.edu/meetingshome.aspx",
+      "deadlines": [
+        {
+          "name": "Abstract submission",
+          "date": "2027-08-20"
+        }
+      ]
+    },
+    {
       "name": "EuroBioC",
       "full_name": "European Bioconductor Conference 2027",
       "year": 2027,
@@ -1020,6 +1035,10 @@
         {
           "name": "Early registration",
           "date": "2026-10-31"
+        },
+        {
+          "name": "Poster submission",
+          "date": "2026-12-01"
         }
       ]
     },
@@ -1047,7 +1066,7 @@
       "full_name": "Workshop on Algorithms in Bioinformatics 2027",
       "year": 2027,
       "location": "Tokyo, Japan",
-      "link": "https://www.wabi-conference.org/"
+      "link": "https://wabi2027.hgc.jp/"
     }
   ]
 }
