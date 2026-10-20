@@ -995,7 +995,21 @@
       "location": "Copenhagen, Denmark",
       "start_date": "2027-07-18",
       "end_date": "2027-07-22",
-      "link": "https://www.iscb.org/ismbeccb2027/home"
+      "link": "https://www.iscb.org/ismbeccb2027/home",
+      "deadlines": [
+        {
+          "name": "Proceedings",
+          "date": "2027-01-14"
+        },
+        {
+          "name": "Abstract",
+          "date": "2027-04-08"
+        },
+        {
+          "name": "Late-breaking poster",
+          "date": "2027-05-06"
+        }
+      ]
     },
     {
       "name": "NeurIPS",
