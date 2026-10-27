@@ -969,10 +969,22 @@
       "link": "https://www.ga4gh.org/event/april-connect-2027/"
     },
     {
+      "name": "GA4GH Plenary",
+      "full_name": "Global Alliance for Genomics and Health 15th Plenary",
+      "year": 2027,
+      "location": "Cape Town, South Africa",
+      "start_date": "2027-09-20",
+      "end_date": "2027-09-24",
+      "link": "https://www.ga4gh.org/event/15th-plenary/"
+    },
+    {
       "name": "Galaxy Community Conference",
       "full_name": "GCC2027",
       "year": 2027,
-      "location": "Montreal, Canada"
+      "location": "Longueuil, Canada",
+      "start_date": "2027-06-26",
+      "end_date": "2027-07-01",
+      "link": "https://galaxyproject.org/events/gcc2027/"
     },
     {
       "name": "GRC Epigenetics",
@@ -995,7 +1007,21 @@
       "location": "Copenhagen, Denmark",
       "start_date": "2027-07-18",
       "end_date": "2027-07-22",
-      "link": "https://www.iscb.org/ismbeccb2027/home"
+      "link": "https://www.iscb.org/ismbeccb2027/home",
+      "deadlines": [
+        {
+          "name": "Proceedings submission deadline",
+          "date": "2027-01-14"
+        },
+        {
+          "name": "Abstracts submission deadline",
+          "date": "2027-04-08"
+        },
+        {
+          "name": "Late-breaking poster submissions deadline",
+          "date": "2027-05-06"
+        }
+      ]
     },
     {
       "name": "NeurIPS",
@@ -1047,7 +1073,7 @@
       "full_name": "Workshop on Algorithms in Bioinformatics 2027",
       "year": 2027,
       "location": "Tokyo, Japan",
-      "link": "https://www.wabi-conference.org/"
+      "link": "https://wabi2027.hgc.jp/"
     }
   ]
 }
