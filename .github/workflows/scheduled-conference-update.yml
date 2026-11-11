@@ -4,11 +4,11 @@ name: Scheduled conference update
 # researches conference dates and deadlines, then opens or updates one
 # "Conference update" pull request for human review. Nothing merges on its own.
 #
-# One GitHub login does all the writing: Claude's (claude[bot]). Claude finishes
-# by running scripts/publish-update.sh, which checks, commits, pushes, and opens
-# the pull request. The workflow's own token is read-only. Because the pull
-# request comes from Claude's login, the repo's validate and scope checks run
-# on it.
+# Claude does only the research. When it finishes, a Claude Code Stop hook
+# runs scripts/publish-update.sh automatically: it runs the checks (failures go
+# back to Claude to fix), commits, pushes, and opens the pull request. The hook
+# runs inside the Claude step, so it uses Claude's GitHub login and the pull
+# request and commits are credited to claude[bot].
 #
 # Runs on GitHub-hosted runners: this repo is public, and the self-hosted yeti
 # runner serves private repos only.
@@ -18,6 +18,8 @@ name: Scheduled conference update
 # branch tip means the branch is stale and should be reset to current main.
 #
 # All research and editing rules live in automation/update-conferences.md.
+# The prompt below adds only what this workflow needs from Claude: where to
+# write the review summary, and to leave committing and the PR to the hook.
 
 on:
   schedule:
@@ -25,8 +27,8 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
-  pull-requests: read
+  contents: write
+  pull-requests: write
   id-token: write
   actions: read
 
@@ -41,11 +43,8 @@ jobs:
       - uses: actions/checkout@v5
         with:
           fetch-depth: 0
-          persist-credentials: false
 
       - name: Establish shared conference-update branch
-        # Local only: nothing is pushed here. publish-update.sh pushes later
-        # with Claude's login, using REMOTE_SHA as its lease.
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -60,10 +59,8 @@ jobs:
             --json number \
             --jq '.[0].number // empty')
 
-          REMOTE_SHA=""
           if git ls-remote --exit-code --heads origin conference-update >/dev/null 2>&1; then
             git fetch origin conference-update
-            REMOTE_SHA=$(git rev-parse origin/conference-update)
             git checkout -B conference-update origin/conference-update
 
             # Bring the branch up to date so this run uses main's current CLI,
@@ -80,6 +77,7 @@ jobs:
               # Nothing pending once main is merged in. This commonly happens
               # after a squash merge. Reset instead of replaying it.
               git checkout -B conference-update origin/main
+              git push --force-with-lease origin conference-update
               echo "Reset stale conference-update branch to current main"
             else
               echo "Preserving genuine pending conference data; no open PR exists yet"
@@ -90,7 +88,6 @@ jobs:
           fi
 
           echo "START_SHA=$(git rev-parse HEAD)" >> "$GITHUB_ENV"
-          echo "REMOTE_SHA=$REMOTE_SHA" >> "$GITHUB_ENV"
 
       - uses: actions/setup-node@v6
         with:
@@ -122,19 +119,29 @@ jobs:
             Write the review summary to /tmp/conference-pr-body.md using the
             canonical review-summary sections.
 
-            Finish by running `bash scripts/publish-update.sh`. It runs every
-            check, commits only the allowed files, pushes the
-            conference-update branch, and opens or updates the review pull
-            request. If a check fails, fix the data (never the tools) and run
-            it again until it succeeds. Do not commit, push, or create a pull
-            request any other way, and never merge one.
+            Do not commit, push, or create or merge a pull request. When you
+            finish, a hook runs the checks and publishes the update. If a check
+            fails, the hook tells you what failed: fix the data and finish
+            again.
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN_UVA }}
           claude_args: '--allowedTools "Bash(*),Read(*),Write(*),Edit(*),Glob(*),Grep(*),WebSearch,WebFetch"'
           show_full_output: true
+          settings: |
+            {
+              "hooks": {
+                "Stop": [{
+                  "hooks": [{
+                    "type": "command",
+                    "command": "bash \"$CLAUDE_PROJECT_DIR\"/scripts/publish-update.sh",
+                    "timeout": 300
+                  }]
+                }]
+              }
+            }
 
       - name: Confirm the update was published
         run: |
           if [ ! -f /tmp/conference-publish.done ]; then
-            echo "::error::Claude did not finish scripts/publish-update.sh, so no review PR was opened or updated"
+            echo "::error::scripts/publish-update.sh did not finish, so no review PR was opened or updated"
             exit 1
           fi
