@@ -74,7 +74,10 @@ not repeated.
 
 Every run works on the shared `conference-update` branch and opens or updates
 one "Conference update" pull request for human review; nothing merges on its
-own. Merge or close that pull request before the next run, because every run
+own. Claude ends each run with
+[`scripts/publish-update.sh`](scripts/publish-update.sh), which runs the checks,
+commits, pushes, and opens the pull request, so the pull request comes from
+`claude[bot]` and CI runs on it. Merge or close that pull request before the next run, because every run
 updates the research-state files.
 
 ## Checks
