@@ -40,7 +40,7 @@ jobs:
   update-conferences:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
@@ -89,7 +89,7 @@ jobs:
 
           echo "START_SHA=$(git rev-parse HEAD)" >> "$GITHUB_ENV"
 
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@v7
         with:
           node-version: 24
 
