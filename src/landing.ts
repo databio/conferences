@@ -24,13 +24,16 @@ function dateRange(start?: string, end?: string): string {
   return sm === em ? `${MONTHS[sm - 1]} ${sd}–${ed}` : `${MONTHS[sm - 1]} ${sd}–${MONTHS[em - 1]} ${ed}`
 }
 
+// One deadline per line, date first, so a long list stacks instead of running
+// off the right edge.
 function deadlinesCell(c: Conference): string {
   if (!c.deadlines?.length) return '—'
-  return c.deadlines
+  const items = c.deadlines
     .slice()
     .sort((a, b) => a.date.localeCompare(b.date))
-    .map((d) => `${esc(d.name)} <span class="d-date">${monthDay(d.date)}</span>`)
-    .join(' &middot; ')
+    .map((d) => `<li><span class="d-date">${monthDay(d.date)}</span> <span>${esc(d.name)}</span></li>`)
+    .join('')
+  return `<ul class="dl">${items}</ul>`
 }
 
 function nameCell(c: Conference): string {
@@ -99,7 +102,7 @@ export function landingHtml(repo: string): string {
             : ''
         }</td>
         <td class="c-loc">${esc(c.location ?? '')}</td>
-        <td class="c-dl">${deadlinesCell(c)}</td>
+        <td class="c-dl${c.deadlines?.length ? '' : ' none'}">${deadlinesCell(c)}</td>
       </tr>`,
         )
         .join('')
@@ -140,12 +143,12 @@ export function landingHtml(repo: string): string {
   @media (prefers-color-scheme: dark){ :root{ --fg:#e5e7eb; --muted:#9ca3af; --line:#2b2f36; --accent:#60a5fa; --bg:#0d1117; } }
   * { box-sizing:border-box; }
   body { font:16px/1.55 system-ui,-apple-system,sans-serif; color:var(--fg); background:var(--bg); margin:0; }
-  main { max-width:60rem; margin:0 auto; padding:2rem 1rem 4rem; }
+  main { max-width:72rem; margin:0 auto; padding:2rem 1rem 4rem; }
   h1 { margin:0 0 .25rem; font-size:1.9rem; }
   .sub { color:var(--muted); margin:0 0 1rem; }
   .links a { color:var(--accent); text-decoration:none; margin-right:1rem; font-size:.9rem; }
   .links a:hover { text-decoration:underline; }
-  nav.years { position:sticky; top:0; background:var(--bg); border-bottom:1px solid var(--line); padding:.6rem 0; margin:1rem 0; display:flex; flex-wrap:wrap; gap:.25rem 1rem; font-size:.85rem; }
+  nav.years { position:sticky; top:0; z-index:1; background:var(--bg); border-bottom:1px solid var(--line); padding:.6rem 0; margin:1rem 0; display:flex; flex-wrap:wrap; gap:.25rem 1rem; font-size:.85rem; }
   nav.years a { color:var(--fg); text-decoration:none; }
   nav.years a:hover { color:var(--accent); }
   nav.years b { color:var(--muted); font-weight:600; }
@@ -158,14 +161,29 @@ export function landingHtml(repo: string): string {
   .c-name a { color:var(--fg); font-weight:600; text-decoration:none; }
   .c-name a:hover { color:var(--accent); }
   .c-name .full { display:block; color:var(--muted); font-size:.8rem; font-weight:400; }
-  .c-dates, .c-dl { white-space:nowrap; }
+  .c-dates { white-space:nowrap; }
   .c-dl { font-size:.85rem; }
-  .d-date { color:var(--muted); }
+  .dl { list-style:none; margin:0; padding:0; }
+  .dl li { display:grid; grid-template-columns:3.3rem 1fr; gap:.4rem; }
+  .d-date { color:var(--muted); font-variant-numeric:tabular-nums; }
+  /* Narrow screens: each row becomes a card, dates on the left. */
+  @media (max-width:720px) {
+    .tablewrap table, .tablewrap tbody, .tablewrap td { display:block; }
+    .tablewrap thead { display:none; }
+    .tablewrap tr { display:grid; grid-template-columns:6.3rem 1fr; column-gap:.6rem; padding:.6rem 0; border-bottom:1px solid var(--line); }
+    td { padding:0; border:0; }
+    tr:hover td { background:none; }
+    .c-dates { grid-column:1; grid-row:1 / span 3; white-space:normal; }
+    .c-name, .c-loc, .c-dl { grid-column:2; }
+    .c-loc { color:var(--muted); font-size:.85rem; }
+    .c-dl { margin-top:.2rem; }
+    .c-dl.none { display:none; }
+  }
   .cal { text-decoration:none; font-size:.85em; opacity:.5; margin-left:.15rem; }
   .cal:hover { opacity:1; }
   .ai { margin-top:2.5rem; border:1px solid var(--line); border-radius:10px; padding:1rem 1.25rem; background:color-mix(in srgb, var(--accent) 4%, transparent); }
   .ai h2 { border:0; display:block; margin:.2rem 0 .5rem; }
-  .ai code { background:color-mix(in srgb, var(--fg) 8%, transparent); padding:.1em .35em; border-radius:4px; font-size:.85em; }
+  .ai code { background:color-mix(in srgb, var(--fg) 8%, transparent); padding:.1em .35em; border-radius:4px; font-size:.85em; overflow-wrap:anywhere; }
   .ai ul { margin:.4rem 0; padding-left:1.2rem; }
   footer { margin-top:2rem; color:var(--muted); font-size:.82rem; }
 </style></head>
