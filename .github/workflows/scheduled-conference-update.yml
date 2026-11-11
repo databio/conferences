@@ -121,6 +121,14 @@ jobs:
           claude_args: '--allowedTools "Bash(*),Read(*),Write(*),Edit(*),Glob(*),Grep(*),WebSearch,WebFetch"'
           show_full_output: true
 
+      - name: Restore workflow git credentials
+        # claude-code-action points origin at its own short-lived app token and
+        # revokes that token when its step ends. Point origin back at this
+        # workflow's token so the steps below can fetch and push.
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+
       - name: Normalize + validate
         run: |
           node scripts/conference-state.mjs sync
