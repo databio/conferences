@@ -951,6 +951,21 @@
       ]
     },
     {
+      "name": "CSH Single Cell Analyses",
+      "full_name": "Single Cell Analyses",
+      "year": 2027,
+      "location": "Cold Spring Harbor, NY",
+      "start_date": "2027-11-10",
+      "end_date": "2027-11-13",
+      "link": "https://meetings.cshl.edu/meetings.aspx?meet=single",
+      "deadlines": [
+        {
+          "name": "Abstract submission",
+          "date": "2027-08-20"
+        }
+      ]
+    },
+    {
       "name": "EuroBioC",
       "full_name": "European Bioconductor Conference 2027",
       "year": 2027,
@@ -1010,16 +1025,8 @@
       "link": "https://www.iscb.org/ismbeccb2027/home",
       "deadlines": [
         {
-          "name": "Proceedings submission deadline",
+          "name": "Proceedings",
           "date": "2027-01-14"
-        },
-        {
-          "name": "Abstracts submission deadline",
-          "date": "2027-04-08"
-        },
-        {
-          "name": "Late-breaking poster submissions deadline",
-          "date": "2027-05-06"
         }
       ]
     },
@@ -1046,6 +1053,10 @@
         {
           "name": "Early registration",
           "date": "2026-10-31"
+        },
+        {
+          "name": "Poster abstract",
+          "date": "2026-12-01"
         }
       ]
     },

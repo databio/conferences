@@ -57,11 +57,12 @@
       "note": "2027 details not published yet"
     },
     "CSH Single Cell Analyses": {
-      "phase": 1,
-      "deadline_pages": [],
-      "last_checked": "2026-10-27",
-      "last_full_search": null,
-      "note": "2027 details not published yet"
+      "phase": 3,
+      "deadline_pages": [
+        "https://meetings.cshl.edu/meetings.aspx?meet=single"
+      ],
+      "last_checked": "2026-11-10",
+      "last_full_search": "2026-11-10"
     },
     "GA4GH Connect": {
       "phase": 2,
@@ -87,8 +88,7 @@
       "phase": 2,
       "deadline_pages": [],
       "last_checked": "2026-10-27",
-      "last_full_search": "2026-09-21",
-      "note": "2027 details not published yet"
+      "last_full_search": "2026-09-21"
     },
     "ISMB": {
       "phase": 3,
