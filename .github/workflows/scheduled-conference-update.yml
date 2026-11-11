@@ -1,9 +1,14 @@
-name: Manual conference update with Claude
+name: Scheduled conference update
 
-# Manual Claude fallback for the conference updater.
-# The normal recurring schedule is handled by a ChatGPT Scheduled Task.
+# The conference updater. Every Monday at 09:00 UTC (or by hand), Claude Code
+# researches conference dates and deadlines and this workflow opens or updates
+# one "Conference update" pull request for human review. Nothing merges on its
+# own.
 #
-# Both agents use the durable conference-update branch. An open review PR means
+# Runs on GitHub-hosted runners: this repo is public, and the self-hosted yeti
+# runner serves private repos only.
+#
+# Every run uses the durable conference-update branch. An open review PR means
 # that branch contains pending work. Without an open PR, identical data at the
 # branch tip means the branch is stale and should be reset to current main.
 #
@@ -12,6 +17,8 @@ name: Manual conference update with Claude
 # write the review summary, and to leave committing and the PR to the workflow.
 
 on:
+  schedule:
+    - cron: "0 9 * * 1"
   workflow_dispatch:
 
 permissions:
@@ -110,7 +117,7 @@ jobs:
             Do not commit, push, or create or merge a pull request. After you
             finish, this workflow normalizes, validates, commits to the shared
             branch, and opens or updates the review PR.
-          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN_UVA }}
           claude_args: '--allowedTools "Bash(*),Read(*),Write(*),Edit(*),Glob(*),Grep(*),WebSearch,WebFetch"'
           show_full_output: true
 
@@ -127,7 +134,7 @@ jobs:
         run: |
           BODY=/tmp/conference-pr-body.md
           if [ ! -f "$BODY" ]; then
-            echo "Manual AI refresh of conference dates and deadlines." > "$BODY"
+            echo "Automated refresh of conference dates and deadlines." > "$BODY"
           fi
           {
             echo ""
