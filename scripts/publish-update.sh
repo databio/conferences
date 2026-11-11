@@ -63,9 +63,9 @@ if git diff --quiet origin/main HEAD -- "${PATHS[@]}"; then
   exit 0
 fi
 
-# Always a fast-forward: the setup step already brought the remote branch up to
-# date or reset it.
-git push -q origin "HEAD:refs/heads/$BRANCH"
+# The setup step may have reset a stale branch to main, so this can rewrite the
+# remote branch. The lease refuses if the branch changed since setup fetched it.
+git push -q --force-with-lease origin "HEAD:refs/heads/$BRANCH"
 
 [ -s "$BODY" ] || echo "Automated refresh of conference dates and deadlines." > "$BODY"
 printf '\n---\n_Merging redeploys conferences.databio.org with the updated data._\n' |
