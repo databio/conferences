@@ -6,11 +6,57 @@ Most conference-deadline sites are a static countdown page over a YAML file with
 
 Scope: **computational biology / bioinformatics / genomics** conferences with deadlines.
 
-## Source of truth
+## Data
 
-The dataset is a single file — [`data/conferences.json`](data/conferences.json) — shaped `{ "conferences": [ ... ] }`. It is bundled into a Cloudflare Worker at deploy time and served from memory at the edge. There is **no database**: reads come from the file, corrections are GitHub PRs.
+The conference list lives in [`data/conferences.json`](data/conferences.json):
+one record per conference per year, inside `{ "conferences": [ ... ] }`. The file
+is bundled into a Cloudflare Worker at deploy time and served from memory.
+There is **no database**: the API reads this file, and corrections are pull
+requests.
 
-Each record: `name`, `year`, optional `full_name`, `location`, `start_date`, `end_date`, `link`, `deadlines: [{name, date}]`, `note`, `attending`, `slug`. The API derives a stable series `slug` and instance `id` (`slug-year`) unless `slug` is set. See [`schema.json`](schema.json).
+### Data model
+
+A **conference** record is one meeting of a series in one year, such as ISMB
+2027. Its **deadlines** are the dated milestones before the meeting, such as
+the abstract or paper deadline.
+
+| Field | Type | Required | Meaning |
+|---|---|---|---|
+| `name` | string | yes | Short series name, the same every year, e.g. `ISMB` |
+| `year` | integer | yes | Year of the meeting |
+| `full_name` | string | | Longer name, e.g. `18th ACM BCB` |
+| `location` | string | | City and region or country |
+| `start_date`, `end_date` | date | | First and last day, `YYYY-MM-DD` |
+| `link` | URL | | Official page for this year's meeting |
+| `deadlines` | list | | Milestones, each `{ "name", "date" }`. `name` is a label such as `Abstracts` or `Full papers`; `date` is `YYYY-MM-DD` |
+| `note` | string | | Free-text note |
+| `attending` | boolean | | Lab-internal: the lab plans to attend |
+| `slug` | string | | Overrides the series ID the API derives from `name` |
+
+Example:
+
+```json
+{
+  "name": "ACM BCB",
+  "full_name": "18th ACM BCB",
+  "year": 2027,
+  "location": "Boston, MA",
+  "start_date": "2027-08-10",
+  "end_date": "2027-08-13",
+  "link": "https://acmbcb.hosting.acm.org/",
+  "deadlines": [
+    { "name": "Abstract preregistration", "date": "2027-03-19" },
+    { "name": "Full papers", "date": "2027-03-26" }
+  ]
+}
+```
+
+From each record the API derives a series `slug` (`acm-bcb`), an instance `id`
+(`acm-bcb-2027`), and a deadline `id` (`acm-bcb-2027:full-papers`). The
+`/deadlines` feed also lists each meeting's start date as a `Conference`
+deadline. The JSON Schema is [`schema.json`](schema.json). The updater's
+research notes are kept separately in `automation/research-state/` and are not
+served.
 
 ## API
 
@@ -18,8 +64,8 @@ Base URL: `https://conferences.databio.org`
 
 | Endpoint | What |
 |---|---|
-| `GET /conferences` | list instances — filters `year, from, to, location, q, upcoming` |
-| `GET /deadlines` | flat, date-sorted deadline feed — filters `from, to, days, kind` |
+| `GET /conferences` | list instances; filters `year, from, to, location, q, upcoming` |
+| `GET /deadlines` | flat, date-sorted deadline feed; filters `from, to, days, kind` |
 | `GET /{slug}` | a conference series (all tracked years), e.g. `/ismb` |
 | `GET /{slug}/{year}` | one instance, e.g. `/recomb/2027` |
 | `GET /{slug}/{year}/deadlines` · `/calendar.ics` | that instance's deadlines / calendar |
@@ -99,7 +145,7 @@ CI runs on every pull request and push to `main`:
 
 ## Contributing
 
-Add or fix a conference by editing `data/conferences.json` and opening a PR — see [CONTRIBUTING.md](CONTRIBUTING.md). CI validates the file on every PR.
+Add or fix a conference by editing `data/conferences.json` and opening a PR; see [CONTRIBUTING.md](CONTRIBUTING.md). CI validates the file on every PR.
 
 ## License
 
