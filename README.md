@@ -43,8 +43,11 @@ npm run dev              # wrangler dev (local)
 
 ## Automated curation
 
-A scheduled AI agent refreshes the data every week. Everything it follows lives
-in this repository:
+A GitHub Actions workflow,
+[`scheduled-conference-update.yml`](.github/workflows/scheduled-conference-update.yml),
+runs Claude Code every Monday at 09:00 UTC to refresh the data. It can also be
+started by hand from the Actions tab. Everything it follows lives in this
+repository:
 
 - [`AGENTS.md`](AGENTS.md): the entry point for any agent.
 - [`automation/update-conferences.md`](automation/update-conferences.md): the
@@ -69,11 +72,10 @@ Each run starts from `node scripts/conference-state.mjs todo`, which lists only
 the items that are due, along with what earlier runs already found, so work is
 not repeated.
 
-Every run ends in a pull request for human review; nothing merges on its own.
-Merge or close each run's pull request before the next run, because every run
-updates the research-state files. The manual Claude Code workflow in
-`.github/workflows/scheduled-conference-update.yml` runs the same procedure as
-a fallback, on the `conference-update` branch.
+Every run works on the shared `conference-update` branch and opens or updates
+one "Conference update" pull request for human review; nothing merges on its
+own. Merge or close that pull request before the next run, because every run
+updates the research-state files.
 
 ## Checks
 

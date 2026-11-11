@@ -4,8 +4,9 @@ Refresh conference dates and deadlines by editing the source-of-truth file
 `data/conferences.json` and the persistent research state under
 `automation/research-state/`.
 
-This is the canonical procedure for recurring conference updates. Agent-specific
-wrappers should point here rather than duplicate these rules.
+This is the canonical procedure for recurring conference updates. The weekly
+GitHub Actions workflow, `.github/workflows/scheduled-conference-update.yml`,
+points here rather than duplicating these rules.
 
 ## Non-negotiable scope
 
@@ -265,7 +266,7 @@ practical.
 
 ## Recurring branch workflow
 
-For wrappers using the shared `conference-update` branch, compare current file
+Updates use the shared `conference-update` branch. Compare current file
 contents directly against `main`, not merge-base history. Pending update paths
 are:
 
