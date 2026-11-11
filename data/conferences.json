@@ -918,6 +918,41 @@
       ]
     },
     {
+      "name": "ACM BCB",
+      "full_name": "18th ACM BCB",
+      "year": 2027,
+      "location": "Boston, MA",
+      "start_date": "2027-08-10",
+      "end_date": "2027-08-13",
+      "link": "https://acmbcb.hosting.acm.org/",
+      "deadlines": [
+        {
+          "name": "Workshop proposals",
+          "date": "2027-01-15"
+        },
+        {
+          "name": "Abstract preregistration",
+          "date": "2027-03-19"
+        },
+        {
+          "name": "Full papers",
+          "date": "2027-03-26"
+        },
+        {
+          "name": "Industry extended abstracts",
+          "date": "2027-04-28"
+        },
+        {
+          "name": "UGHS Symposium",
+          "date": "2027-06-04"
+        },
+        {
+          "name": "Workshop papers",
+          "date": "2027-06-04"
+        }
+      ]
+    },
+    {
       "name": "ASHG",
       "full_name": "American Society of Human Genetics 2027",
       "year": 2027,
@@ -947,6 +982,20 @@
         {
           "name": "Abstract submission",
           "date": "2027-02-19"
+        }
+      ]
+    },
+    {
+      "name": "CSH Genome Informatics",
+      "year": 2027,
+      "location": "Cold Spring Harbor, NY",
+      "start_date": "2027-11-03",
+      "end_date": "2027-11-05",
+      "link": "https://meetings.cshl.edu/meetings.aspx?meet=INFO",
+      "deadlines": [
+        {
+          "name": "Abstract",
+          "date": "2027-08-13"
         }
       ]
     },
@@ -1005,7 +1054,17 @@
       "location": "Longueuil, Canada",
       "start_date": "2027-06-26",
       "end_date": "2027-07-01",
-      "link": "https://galaxyproject.org/events/gcc2027/"
+      "link": "https://galaxyproject.org/events/gcc2027/",
+      "deadlines": [
+        {
+          "name": "Fellowship applications (first round)",
+          "date": "2027-02-15"
+        },
+        {
+          "name": "Fellowship applications",
+          "date": "2027-03-15"
+        }
+      ]
     },
     {
       "name": "GRC Epigenetics",
