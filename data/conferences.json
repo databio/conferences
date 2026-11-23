@@ -1036,7 +1036,13 @@
       "location": "Hinxton, UK",
       "start_date": "2027-04-27",
       "end_date": "2027-04-30",
-      "link": "https://www.ga4gh.org/event/april-connect-2027/"
+      "link": "https://www.ga4gh.org/event/april-connect-2027/",
+      "deadlines": [
+        {
+          "name": "Travel fellowship applications",
+          "date": "2027-01-29"
+        }
+      ]
     },
     {
       "name": "GA4GH Plenary",
@@ -1063,6 +1069,14 @@
         {
           "name": "Fellowship applications",
           "date": "2027-03-15"
+        },
+        {
+          "name": "Abstract submission (talks)",
+          "date": "2027-04-15"
+        },
+        {
+          "name": "Abstract submission (posters and demos)",
+          "date": "2027-05-17"
         }
       ]
     },

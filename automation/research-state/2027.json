@@ -6,7 +6,7 @@
       "deadline_pages": [
         "https://acmbcb.hosting.acm.org/dates.php"
       ],
-      "last_checked": "2026-11-11",
+      "last_checked": "2026-11-23",
       "last_full_search": "2026-11-11",
       "lead_pages": [
         "https://acmbcb.hosting.acm.org/"
@@ -14,28 +14,30 @@
       "note": "2027 details published; monitoring deadline page"
     },
     "ASHG": {
-      "phase": 2,
-      "deadline_pages": [],
-      "last_checked": "2026-11-11",
-      "last_full_search": "2026-11-11"
+      "phase": 3,
+      "deadline_pages": [
+        "https://ashgmeeting.ashg.org/"
+      ],
+      "last_checked": "2026-11-23",
+      "last_full_search": "2026-11-23"
     },
     "BMES": {
       "phase": 2,
       "deadline_pages": [],
-      "last_checked": "2026-11-11",
-      "last_full_search": "2026-11-11"
+      "last_checked": "2026-11-23",
+      "last_full_search": "2026-11-23"
     },
     "Bioconductor": {
       "phase": 1,
       "deadline_pages": [],
-      "last_checked": "2026-11-11",
+      "last_checked": "2026-11-23",
       "last_full_search": null,
-      "note": "no BioC2027 announced; EuroBioC2027 (Basel, Sep 8-10) tracked separately"
+      "note": "no official BioC2027 page; EuroBioC2027 (Basel, Sep 8-10) tracked separately"
     },
     "CSH Biological Data Science": {
       "phase": 1,
       "deadline_pages": [],
-      "last_checked": "2026-11-11",
+      "last_checked": "2026-11-23",
       "last_full_search": null,
       "note": "likely not held in 2027 (even-year meeting); archive with evidence once CSHL posts its 2027 schedule"
     },
@@ -44,13 +46,13 @@
       "deadline_pages": [
         "https://meetings.cshl.edu/meetings.aspx?meet=GENOME"
       ],
-      "last_checked": "2026-11-11",
+      "last_checked": "2026-11-23",
       "last_full_search": "2026-10-27"
     },
     "CSH Epigenetics and Chromatin": {
       "phase": 1,
       "deadline_pages": [],
-      "last_checked": "2026-11-11",
+      "last_checked": "2026-11-23",
       "last_full_search": null,
       "note": "likely not held in 2027 (even-year meeting); archive with evidence once CSHL posts its 2027 schedule"
     },
@@ -59,7 +61,7 @@
       "deadline_pages": [
         "https://meetings.cshl.edu/meetings.aspx?meet=INFO"
       ],
-      "last_checked": "2026-11-11",
+      "last_checked": "2026-11-23",
       "last_full_search": "2026-11-11",
       "note": "2027 details published; monitoring deadline page"
     },
@@ -68,29 +70,30 @@
       "deadline_pages": [
         "https://meetings.cshl.edu/meetings.aspx?meet=single"
       ],
-      "last_checked": "2026-11-10",
+      "last_checked": "2026-11-23",
       "last_full_search": "2026-11-10"
     },
     "GA4GH Connect": {
       "phase": 3,
       "deadline_pages": [
-        "https://broadinstitute.swoogo.com/connect27"
+        "https://broadinstitute.swoogo.com/connect27",
+        "https://www.ga4gh.org/event/april-connect-2027/"
       ],
-      "last_checked": "2026-11-11",
+      "last_checked": "2026-11-23",
       "last_full_search": "2026-11-11"
     },
     "GA4GH Plenary": {
       "phase": 2,
       "deadline_pages": [],
-      "last_checked": "2026-11-11",
-      "last_full_search": "2026-11-11"
+      "last_checked": "2026-11-23",
+      "last_full_search": "2026-11-23"
     },
     "GRC Epigenetics": {
       "phase": 3,
       "deadline_pages": [
         "https://www.grc.org/epigenetics-conference/2027/"
       ],
-      "last_checked": "2026-11-11",
+      "last_checked": "2026-11-23",
       "last_full_search": "2026-10-27"
     },
     "Galaxy Community Conference": {
@@ -98,7 +101,7 @@
       "deadline_pages": [
         "https://galaxyproject.org/events/gcc2027/key-dates/"
       ],
-      "last_checked": "2026-11-11",
+      "last_checked": "2026-11-23",
       "last_full_search": "2026-11-11"
     },
     "ISMB": {
@@ -106,20 +109,20 @@
       "deadline_pages": [
         "https://www.iscb.org/ismbeccb2027/key-dates"
       ],
-      "last_checked": "2026-11-11",
+      "last_checked": "2026-11-23",
       "last_full_search": "2026-10-27"
     },
     "MLCB": {
       "phase": 1,
       "deadline_pages": [],
-      "last_checked": "2026-11-11",
+      "last_checked": "2026-11-23",
       "last_full_search": null,
       "note": "2027 details not published yet"
     },
     "NeurIPS": {
       "phase": 1,
       "deadline_pages": [],
-      "last_checked": "2026-11-11",
+      "last_checked": "2026-11-23",
       "last_full_search": null,
       "note": "2027 details not published yet"
     },
@@ -128,7 +131,7 @@
       "deadline_pages": [
         "https://psb.stanford.edu/keydates"
       ],
-      "last_checked": "2026-11-11",
+      "last_checked": "2026-11-23",
       "last_full_search": "2026-10-27"
     },
     "RECOMB": {
@@ -136,13 +139,13 @@
       "deadline_pages": [
         "https://recomb.org/recomb2027/keydates_and_deadlines"
       ],
-      "last_checked": "2026-11-11",
+      "last_checked": "2026-11-23",
       "last_full_search": "2026-10-27"
     },
     "WABI": {
       "phase": 1,
       "deadline_pages": [],
-      "last_checked": "2026-11-11",
+      "last_checked": "2026-11-23",
       "last_full_search": null,
       "lead_pages": [
         "https://wabi2027.hgc.jp/"
@@ -152,9 +155,9 @@
     "useR": {
       "phase": 1,
       "deadline_pages": [],
-      "last_checked": "2026-11-11",
+      "last_checked": "2026-11-23",
       "last_full_search": null,
-      "note": "2027 details not published yet"
+      "note": "unofficial report of Santiago, Chile July 2027; no official source yet"
     }
   }
 }
