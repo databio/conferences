@@ -959,7 +959,13 @@
       "location": "Nashville, TN",
       "start_date": "2027-10-26",
       "end_date": "2027-10-30",
-      "link": "https://www.ashg.org/meetings/future-past/"
+      "link": "https://www.ashg.org/meetings/future-past/",
+      "deadlines": [
+        {
+          "name": "Session proposals",
+          "date": "2027-01-19"
+        }
+      ]
     },
     {
       "name": "BMES",
